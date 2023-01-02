@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIGN IN PAGE</title>
     <link rel="stylesheet" href="./css/login.css">
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
     <main>
@@ -17,17 +21,17 @@
                     <button class="login-button" id="toggle">Login</button>
                     <button class="register-button" id="toggle">Register</button>
                 </div>
-                <form action="" id="login">
+                <form action="/api/v1/auth0/login" method="post" id="login">
                     <div class="username">
                         <label>
-                            Username
-                            <input type="text" name="" id="">
+                            Email
+                            <input type="email" name="Email" placeholder="Enter your email" required>
                         </label>
                     </div>
                     <div class="password">
                         <label>
                             Password
-                            <input type="password">
+                            <input type="password" name="Password" required>
                         </label>
                     </div>
                     <div class="checkbox">
@@ -41,23 +45,23 @@
                     </div>
                 </form>
                 <!--Register Form-->
-                <form action="" id="register">
+                <form action="/api/v1/auth0/register" method="post" id="register">
                     <div class="username">
                         <label>
-                            Username
-                            <input type="text">
+                            Full Name
+                            <input type="text" name="Username" required>
                         </label>
                     </div>
                     <div class="email">
                         <label>
                             Email
-                            <input type="email" name="" id="">
+                            <input type="email" name="Email" id="" required>
                         </label>
                     </div>
                     <div class="password">
                         <label>
                             Password
-                            <input type="password">
+                            <input type="password" required>
                         </label>
                     </div>
                     <div class="submit-btn">
