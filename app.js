@@ -3,9 +3,14 @@ const app = express();
 const port = 3000 || process.env.PORT;
 const connectDB = require("./db/connect");
 require("dotenv").config();
+const router = require("./routes/auth");
+
 //middlewares
 app.use(express.json());
 app.use(express.static("public"));
+
+//routes
+app.use("/api/v1", router);
 
 app.get("/", (req, res) => {
   res.send("my full crud app");
