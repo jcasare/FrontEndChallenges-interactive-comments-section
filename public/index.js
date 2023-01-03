@@ -34,6 +34,7 @@ signUpBtn.addEventListener("click", (e) => {
   registerPasswordConfirm.onkeyup = validatePassword;
 });
 loginBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
   try {
     const { data } = await axios.post("/api/v1/auth/login", {
       username: loginUsername.value,
@@ -44,4 +45,20 @@ loginBtn.addEventListener("click", async (e) => {
   }
   loginUsername.value = "";
   LoginPassword.value = "";
+});
+signUpBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  try {
+    const { data } = await axios.post("/api/v1/auth/register", {
+      name: registerName,
+      email: registerEmail,
+      password: registerPasswordConfirm,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+  registerEmail.value = "";
+  registerName.value = "";
+  registerPassword.value = "";
+  registerPasswordConfirm.value = "";
 });
