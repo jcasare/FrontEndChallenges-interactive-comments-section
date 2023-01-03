@@ -4,73 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGN IN PAGE</title>
+    <title>SIGNIN/SIGNUP PAGE</title>
     <link rel="stylesheet" href="./css/login.css">
-    <!--Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-    <main>
-        <div class="overall-container">
-            <!--Login Form-->
-            <div class="form">
-                <div class="toggle-buttons">
-                    <div id="toggle"></div>
-                    <button class="login-button" id="toggle">Login</button>
-                    <button class="register-button" id="toggle">Register</button>
+    <section>
+        <div class="container">
+            <div class="user signinBx">
+                <div class="imgBx"><img
+                        src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img1.jpg"
+                        alt="" /></div>
+                <div class="formBx">
+                    <form action="" onsubmit="return false;">
+                        <h2>Sign In</h2>
+                        <input type="text" id="username" name="" placeholder="Username" />
+                        <input type="password" class="userSigninPassword" name="" placeholder="Password" />
+                        <input type="submit" class="loginBtn" name="" value="Login" />
+                        <p class="signup">
+                            Don't have an account ?
+                            <a href="#" onclick="toggleForm();">Sign Up.</a>
+                        </p>
+                    </form>
                 </div>
-                <form action="/api/v1/auth0/login" method="post" id="login">
-                    <div class="username">
-                        <label>
-                            Email
-                            <input type="email" name="Email" placeholder="Enter your email" required>
-                        </label>
-                    </div>
-                    <div class="password">
-                        <label>
-                            Password
-                            <input type="password" name="Password" required>
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox">
-                            Remember Me
-                        </label>
-                    </div>
-                    <div class="submit-btn">
-                        <button type="submit" id="login-btn">Login</button>
-                    </div>
-                </form>
-                <!--Register Form-->
-                <form action="/api/v1/auth0/register" method="post" id="register">
-                    <div class="username">
-                        <label>
-                            Full Name
-                            <input type="text" name="Username" required>
-                        </label>
-                    </div>
-                    <div class="email">
-                        <label>
-                            Email
-                            <input type="email" name="Email" id="" required>
-                        </label>
-                    </div>
-                    <div class="password">
-                        <label>
-                            Password
-                            <input type="password" required>
-                        </label>
-                    </div>
-                    <div class="submit-btn">
-                        <button type="submit" id="register-btn">Register</button>
-                    </div>
-                </form>
+            </div>
+            <div class="user signupBx">
+                <div class="formBx">
+                    <form action="/api/v1/auth0/sign-up" method="post" onsubmit="return false;">
+                        <h2>Create an account</h2>
+                        <input type="text" name="" placeholder="Username" />
+                        <input type="email" name="" placeholder="Email Address" />
+                        <input type="password" class="userSignupPassword" name="" placeholder="Create Password" />
+                        <input type="password" name="" class="userSignupPasswordRepeat" placeholder="Confirm Password" />
+                        <input type="submit" name="" class="signUpBtn" value="Sign Up" />
+                        <p class="signup">
+                            Already have an account ?
+                            <a href="#" onclick="toggleForm();">Sign in.</a>
+                        </p>
+                    </form>
+                </div>
+                <div class="imgBx"><img
+                        src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img2.jpg"
+                        alt="" /></div>
             </div>
         </div>
-    </main>
+    </section>
     <script src="./index.js"></script>
 </body>
 </html>
