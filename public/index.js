@@ -10,14 +10,10 @@ const loginBtn = document.querySelector("#loginBtn");
 const signUpBtn = document.querySelector("#signUpBtn");
 const signUpForm = document.querySelector("#signUpForm");
 const signInform = document.querySelector("#signInForm");
+
 const toggleForm = () => {
   const container = document.querySelector(".container");
   container.classList.toggle("active");
-  loginUsername.value = "";
-  LoginPassword.value = "";
-  registerEmail.value = "";
-  registerPassword.value = "";
-  registerPasswordConfirm.value = "";
 };
 
 const validatePassword = () => {
@@ -27,24 +23,48 @@ const validatePassword = () => {
     registerPasswordConfirm.setCustomValidity("");
   }
 };
-signUpBtn.addEventListener("click", (e) => {
+
+//signup button
+signUpBtn.addEventListener("click", async (e) => {
   e.preventDefault();
   validatePassword();
   registerPassword.onchange = validatePassword;
   registerPasswordConfirm.onkeyup = validatePassword;
-});
-loginBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
+  const username = registerName.value;
+  const email = registerEmail.value;
+  const password = registerPassword.value;
   try {
-    const { data } = await axios.post("/api/v1/auth/login", {
-      username: loginUsername.value,
-      password: LoginPassword.value,
+    const { data } = await axios.post("/api/v1/auth/sign-up", {
+      username,
+      email,
+      password,
     });
+    registerName.value = "";
+    registerEmail.value = "";
+    registerPassword.value = "";
+    registerPasswordConfirm.value = "";
+    localStorage.setItem("token", data.token);
   } catch (error) {
     console.log(error.response);
   }
-  loginUsername.value = "";
-  LoginPassword.value = "";
+});
+
+//login button
+loginBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const username = loginUsername.value;
+  const password = LoginPassword.value;
+  try {
+    const { data } = await axios.post("/api/v1/auth/login", {
+      username,
+      password,
+    });
+    localStorage.setItem("token", data.token);
+    loginUsername.value = "";
+    LoginPassword.value = "";
+  } catch (error) {
+    console.log(error.response);
+  }
 });
 signUpBtn.addEventListener("click", async (e) => {
   e.preventDefault();
