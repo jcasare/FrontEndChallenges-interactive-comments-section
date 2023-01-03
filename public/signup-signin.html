@@ -17,28 +17,28 @@
                 <div class="formBx">
                     <form action="" onsubmit="return false;">
                         <h2>Sign In</h2>
-                        <input type="text" id="username" name="" placeholder="Username" />
-                        <input type="password" class="userSigninPassword" name="" placeholder="Password" />
-                        <input type="submit" class="loginBtn" name="" value="Login" />
+                        <input type="text" class="username-input" name="" placeholder="Username" />
+                        <input type="password" class="password-login-input" name="" placeholder="Password" />
+                        <input type="submit"  id="loginBtn" name="" value="Login" />
                         <p class="signup">
                             Don't have an account ?
-                            <a href="#" onclick="toggleForm();">Sign Up.</a>
+                            <a href="#" class="signUpLink" onclick="toggleForm();">Sign Up.</a>
                         </p>
                     </form>
                 </div>
             </div>
             <div class="user signupBx">
                 <div class="formBx">
-                    <form action="/api/v1/auth0/sign-up" method="post" onsubmit="return false;">
+                    <form action="" onsubmit="return false;">
                         <h2>Create an account</h2>
-                        <input type="text" name="" placeholder="Username" />
-                        <input type="email" name="" placeholder="Email Address" />
+                        <input type="text" name="" class="userName-input-signUp" placeholder="Username" />
+                        <input type="email" name="" class="userEmail-input-signUp" placeholder="Email Address" />
                         <input type="password" class="userSignupPassword" name="" placeholder="Create Password" />
                         <input type="password" name="" class="userSignupPasswordRepeat" placeholder="Confirm Password" />
-                        <input type="submit" name="" class="signUpBtn" value="Sign Up" />
+                        <input type="submit" name="" id="signUpBtn" value="Sign Up" />
                         <p class="signup">
                             Already have an account ?
-                            <a href="#" onclick="toggleForm();">Sign in.</a>
+                            <a class="signInLink" href="#" onclick="toggleForm();">Sign in.</a>
                         </p>
                     </form>
                 </div>
@@ -49,5 +49,6 @@
         </div>
     </section>
     <script src="./index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 </html>
