@@ -1,26 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Interactive comments section</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGNIN/SIGNUP PAGE</title>
+  <link rel="stylesheet" href="./css/login.css">
 </head>
-<body>
 
-  <!-- Pull dynamic content from the data.json file -->
+<body>
+  <section>
+    <div class="container">
+      <div class="user signinBx">
+        <div class="imgBx"><img
+            src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img1.jpg"
+            alt="" /></div>
+        <div class="formBx">
+          <form action="" id="signInForm" onsubmit="return false;">
+            <h2>Sign In</h2>
+            <input type="text" class="username-input" name="" placeholder="Username" />
+            <input type="password" class="password-login-input" name="" placeholder="Password" />
+            <input type="submit" id="loginBtn" name="" value="Login" />
+            <p class="signup">
+              Don't have an account ?
+              <a href="#" class="signUpLink" onclick="toggleForm();">Sign Up.</a>
+            </p>
+          </form>
+        </div>
+      </div>
+      <div class="user signupBx">
+        <div class="formBx">
+          <form action="" id="signUpForm" onsubmit="return false;">
+            <h2>Create an account</h2>
+            <input type="text" name="" class="userName-input-signUp" placeholder="Username" />
+            <input type="email" name="" class="userEmail-input-signUp" placeholder="Email Address" />
+            <input type="password" class="userSignupPassword" name="" placeholder="Create Password" />
+            <input type="password" name="" class="userSignupPasswordRepeat" placeholder="Confirm Password" />
+            <input type="submit" name="" id="signUpBtn" value="Sign Up" />
+            <p class="signup">
+              Already have an account ?
+              <a class="signInLink" href="#" onclick="toggleForm();">Sign in.</a>
+            </p>
+          </form>
+        </div>
+        <div class="imgBx"><img
+            src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img2.jpg"
+            alt="" /></div>
+      </div>
+    </div>
+  </section>
   
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./index.js"></script>
 </body>
+
 </html>

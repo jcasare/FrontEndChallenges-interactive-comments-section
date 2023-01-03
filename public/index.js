@@ -8,7 +8,8 @@ const registerPasswordConfirm = document.querySelector(
 );
 const loginBtn = document.querySelector("#loginBtn");
 const signUpBtn = document.querySelector("#signUpBtn");
-
+const signUpForm = document.querySelector("#signUpForm");
+const signInform = document.querySelector("#signInForm");
 const toggleForm = () => {
   const container = document.querySelector(".container");
   container.classList.toggle("active");
@@ -27,8 +28,20 @@ const validatePassword = () => {
   }
 };
 signUpBtn.addEventListener("click", (e) => {
-  e.preventDefault;
+  e.preventDefault();
   validatePassword();
   registerPassword.onchange = validatePassword;
   registerPasswordConfirm.onkeyup = validatePassword;
+});
+loginBtn.addEventListener("click", async (e) => {
+  try {
+    const { data } = await axios.post("/api/v1/auth/login", {
+      username: loginUsername.value,
+      password: LoginPassword.value,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+  loginUsername.value = "";
+  LoginPassword.value = "";
 });
