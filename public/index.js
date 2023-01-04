@@ -25,25 +25,27 @@ const validatePassword = () => {
 };
 
 //signup button
-signUpBtn.addEventListener("click", async (e) => {
+signUpForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   validatePassword();
   registerPassword.onchange = validatePassword;
   registerPasswordConfirm.onkeyup = validatePassword;
-  const username = registerName.value;
+  const name = registerName.value;
   const email = registerEmail.value;
   const password = registerPassword.value;
+
   try {
-    const { data } = await axios.post("/api/v1/auth0/sign-up", {
-      username,
+    const { data } = await axios.post("/api/v1/auth0/register", {
+      name,
       email,
       password,
     });
+
+    console.log(data);
     registerName.value = "";
     registerEmail.value = "";
     registerPassword.value = "";
     registerPasswordConfirm.value = "";
-    localStorage.setItem("token", data.token);
   } catch (error) {
     console.log(error.response);
   }
@@ -59,26 +61,10 @@ loginBtn.addEventListener("click", async (e) => {
       username,
       password,
     });
-    localStorage.setItem("token", data.token);
+
     loginUsername.value = "";
     LoginPassword.value = "";
   } catch (error) {
-    console.log(error.response);
+    console.log("huh");
   }
-});
-signUpBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  try {
-    const { data } = await axios.post("/api/v1/auth/register", {
-      name: registerName,
-      email: registerEmail,
-      password: registerPasswordConfirm,
-    });
-  } catch (error) {
-    console.log(error.response);
-  }
-  registerEmail.value = "";
-  registerName.value = "";
-  registerPassword.value = "";
-  registerPasswordConfirm.value = "";
 });

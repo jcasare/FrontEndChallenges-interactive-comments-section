@@ -5,7 +5,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     msg: err.message || "Something went wrong, try again later",
   };
-  if (err.name === "Existing Email Error") {
+  if (err.message === "Email exists...please login") {
     res.redirect("/");
   }
   return res.status(customError.statusCode).json({ msg: customError.msg });

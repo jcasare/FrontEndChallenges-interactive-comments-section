@@ -19,7 +19,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.send("logged in");
+  res.send("logged  in");
 
   res.send("login successful");
 };
