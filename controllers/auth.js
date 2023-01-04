@@ -1,16 +1,10 @@
 const User = require("../models/user");
-const { StatusCodes } = require("http-status-codes");
-const {
-  BadRequestError,
-  UnauthenticatedError,
-  ExistingEmailError,
-} = require("../errors");
-
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new ExistingEmailError("Email exists...please login");
+    throw new BadRequestError("A user with this email already exists");
   }
   const user = await User.create({ ...req.body });
   const token = user.genToken();
@@ -19,9 +13,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.send("logged  in");
-
-  res.send("login successful");
+  res.send("login");
 };
 
-module.exports = { login, register };
+module.exports = { register, login };

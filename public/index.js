@@ -41,13 +41,18 @@ signUpForm.addEventListener("submit", async (e) => {
       password,
     });
 
-    console.log(data);
     registerName.value = "";
     registerEmail.value = "";
     registerPassword.value = "";
     registerPasswordConfirm.value = "";
   } catch (error) {
-    console.log(error.response);
+    if (
+      error.response &&
+      error.response.data.msg === "A user with this email already exists"
+    ) {
+      window.location.replace("/");
+      setTimeout(toggleForm(), 2000);
+    }
   }
 });
 
@@ -61,10 +66,14 @@ loginBtn.addEventListener("click", async (e) => {
       username,
       password,
     });
-
+    if (data.msg === "A user with this email already exists") {
+      console.log();
+    }
     loginUsername.value = "";
     LoginPassword.value = "";
   } catch (error) {
-    console.log("huh");
+    if (error.response) {
+      console.log(error.response.data.msg);
+    }
   }
 });
