@@ -12,6 +12,10 @@ const register = async (req, res) => {
   if (existingUser) {
     throw new ExistingEmailError("Email exists...please login");
   }
+  const user = await User.create({ ...req.body });
+  const token = user.genToken();
+  res.cookie("token", { token, user: { name: user.name } }, { signed: true });
+  res.redirect("/main");
 };
 
 const login = async (req, res) => {
