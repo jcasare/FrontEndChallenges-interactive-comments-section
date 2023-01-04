@@ -1,9 +1,23 @@
-const login = async (req, res) => {
-  res.send("login successful");
-};
+const User = require("../models/user");
+const { StatusCodes } = require("http-status-codes");
+const {
+  BadRequestError,
+  UnauthenticatedError,
+  ExistingEmailError,
+} = require("../errors");
 
 const register = async (req, res) => {
-  res.send("register done");
+  const { username, email, password } = req.body;
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new ExistingEmailError("Email exists...please login");
+  }
+};
+
+const login = async (req, res) => {
+  res.send("logged in");
+
+  res.send("login successful");
 };
 
 module.exports = { login, register };
