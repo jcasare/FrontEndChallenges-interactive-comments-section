@@ -34,7 +34,7 @@ signUpBtn.addEventListener("click", async (e) => {
   const email = registerEmail.value;
   const password = registerPassword.value;
   try {
-    const { data } = await axios.post("/api/v1/auth/sign-up", {
+    const { data } = await axios.post("/api/v1/auth0/sign-up", {
       username,
       email,
       password,
@@ -55,7 +55,7 @@ loginBtn.addEventListener("click", async (e) => {
   const username = loginUsername.value;
   const password = LoginPassword.value;
   try {
-    const { data } = await axios.post("/api/v1/auth/login", {
+    const { data } = await axios.post("/api/v1/auth0/login", {
       username,
       password,
     });
