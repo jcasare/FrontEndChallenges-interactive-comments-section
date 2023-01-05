@@ -1,5 +1,5 @@
-const loginUsername = document.querySelector(".username-input");
-const LoginPassword = document.querySelector(".password-login-input");
+const loginEmail = document.querySelector(".username-input");
+const loginPassword = document.querySelector(".password-login-input");
 const registerName = document.querySelector(".userName-input-signUp");
 const registerEmail = document.querySelector(".userEmail-input-signUp");
 const registerPassword = document.querySelector(".userSignupPassword");
@@ -24,52 +24,64 @@ const validatePassword = () => {
   }
 };
 
+registerEmail.addEventListener("keyup", function () {
+  this.setCustomValidity("");
+});
 //signup button
 signUpForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   validatePassword();
   registerPassword.onchange = validatePassword;
   registerPasswordConfirm.onkeyup = validatePassword;
+  registerEmail.setCustomValidity("");
   const name = registerName.value;
   const email = registerEmail.value;
   const password = registerPassword.value;
+  if (signUpForm.checkValidity()) {
+    try {
+      const { data } = await axios.post("/api/v1/auth0/register", {
+        name,
+        email,
+        password,
+      });
 
-  try {
-    const { data } = await axios.post("/api/v1/auth0/register", {
-      name,
-      email,
-      password,
-    });
-
-    registerName.value = "";
-    registerEmail.value = "";
-    registerPassword.value = "";
-    registerPasswordConfirm.value = "";
-  } catch (error) {
-    if (
-      error.response &&
-      error.response.data.msg === "A user with this email already exists"
-    ) {
-      window.location.replace("/");
-      setTimeout(toggleForm(), 2000);
+      registerName.value = "";
+      registerEmail.value = "";
+      registerPassword.value = "";
+      registerPasswordConfirm.value = "";
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data.msg === "A user with this email already exists"
+      ) {
+        // toggleForm();
+        // window.location.replace("/#signUpForm");
+        // toggleForm();
+        registerEmail.setCustomValidity(
+          "A user with this email already exists"
+        );
+        registerEmail.reportValidity();
+      }
     }
+  } else {
+    signUpForm.reportValidity();
   }
 });
 
 //login button
 loginBtn.addEventListener("click", async (e) => {
   e.preventDefault();
-  const username = loginUsername.value;
-  const password = LoginPassword.value;
+  const email = loginEmail.value;
+  const password = loginPassword.value;
   try {
     const { data } = await axios.post("/api/v1/auth0/login", {
-      username,
+      email,
       password,
     });
     if (data.msg === "A user with this email already exists") {
       console.log();
     }
-    loginUsername.value = "";
+    loginEmail.value = "";
     LoginPassword.value = "";
   } catch (error) {
     if (error.response) {
