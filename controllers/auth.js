@@ -7,9 +7,9 @@ const register = async (req, res) => {
     throw new BadRequestError("A user with this email already exists");
   }
   const user = await User.create({ ...req.body });
-  const token = user.genToken();
+  const token = await user.genToken();
   res.cookie("token", { token, user: { name: user.name } }, { signed: true });
-  res.redirect("/main");
+  res.send("Cookie set");
 };
 
 const login = async (req, res) => {
@@ -30,6 +30,7 @@ const login = async (req, res) => {
   }
   const token = user.genToken();
   res.cookie("token", { token, user: { name: user.name } }, { signed: true });
+  res.redirect("/main");
 };
 
 module.exports = { register, login };

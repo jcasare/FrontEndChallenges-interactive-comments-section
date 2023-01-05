@@ -27,6 +27,21 @@ const validatePassword = () => {
 registerEmail.addEventListener("keyup", function () {
   this.setCustomValidity("");
 });
+// const mainPage = async () => {
+//   const token = Cookies.get("token");
+//   console.log(token);
+//   try {
+//     axios.get("/main", {
+//       withCredentials: true,
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// mainPage();
 //signup button
 signUpForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -39,16 +54,23 @@ signUpForm.addEventListener("submit", async (e) => {
   const password = registerPassword.value;
   if (signUpForm.checkValidity()) {
     try {
-      const { data } = await axios.post("/api/v1/auth0/register", {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "/api/v1/auth0/register",
+        {
+          name,
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
+      const token = response.getHeader("set-cookie");
+      console.log(token);
 
       registerName.value = "";
       registerEmail.value = "";
       registerPassword.value = "";
       registerPasswordConfirm.value = "";
+      // window.location.replace("./main.html");
     } catch (error) {
       if (
         error.response &&
@@ -69,7 +91,7 @@ signUpForm.addEventListener("submit", async (e) => {
 });
 
 //login button
-loginBtn.addEventListener("click", async (e) => {
+signInform.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = loginEmail.value;
   const password = loginPassword.value;

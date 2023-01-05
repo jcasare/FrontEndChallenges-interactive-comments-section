@@ -9,6 +9,7 @@ const authRouter = require("./routes/auth");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
 const cookieParser = require("cookie-parser");
+const authMiddleware = require("./middleware/auth");
 //middlewares
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
@@ -18,6 +19,9 @@ app.use(express.json());
 //routes
 app.use("/api/v1/auth0", authRouter);
 
+app.use("/main", authMiddleware, (req, res) => {
+  res.sendFile(__dirname + "/public/main.html");
+});
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public/", "index.html"));
 });
