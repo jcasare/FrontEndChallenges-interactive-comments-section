@@ -6,6 +6,7 @@ const registerPassword = document.querySelector(".userSignupPassword");
 const registerPasswordConfirm = document.querySelector(
   ".userSignupPasswordRepeat"
 );
+
 const loginBtn = document.querySelector("#loginBtn");
 const signUpBtn = document.querySelector("#signUpBtn");
 const signUpForm = document.querySelector("#signUpForm");
@@ -60,10 +61,10 @@ signUpForm.addEventListener("submit", async (e) => {
           name,
           email,
           password,
-        },
-        { withCredentials: true }
+        }
+        // { withCredentials: true }
       );
-      const token = response.getHeader("set-cookie");
+      const token = response.headers;
       console.log(token);
 
       registerName.value = "";

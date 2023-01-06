@@ -11,7 +11,7 @@ const notFoundMiddleware = require("./middleware/not-found");
 const cookieParser = require("cookie-parser");
 const authMiddleware = require("./middleware/auth");
 //middlewares
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser("process.env.COOKIE_SECRET"));
 
 app.use(express.static("./public"));
 app.use(express.json());

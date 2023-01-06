@@ -9,6 +9,7 @@ const register = async (req, res) => {
   const user = await User.create({ ...req.body });
   const token = await user.genToken();
   res.cookie("token", { token, user: { name: user.name } }, { signed: true });
+  console.log(req.signedCookies.token);
   res.send("Cookie set");
 };
 
