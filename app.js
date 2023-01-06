@@ -5,14 +5,19 @@ require("dotenv").config();
 require("express-async-errors");
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
-
+const cors = require("cors");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
 const cookieParser = require("cookie-parser");
 const authMiddleware = require("./middleware/auth");
 //middlewares
 app.use(cookieParser("process.env.COOKIE_SECRET"));
-
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.static("./public"));
 app.use(express.json());
 

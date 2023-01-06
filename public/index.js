@@ -61,11 +61,9 @@ signUpForm.addEventListener("submit", async (e) => {
           name,
           email,
           password,
-        }
-        // { withCredentials: true }
+        },
+        { withCredentials: true }
       );
-      const token = response.headers;
-      console.log(token);
 
       registerName.value = "";
       registerEmail.value = "";
