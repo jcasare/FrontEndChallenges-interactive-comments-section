@@ -35,6 +35,8 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("Invalid Credentials");
   }
   const token = user.genToken();
+  const theme = req.cookies.theme || "light";
+  res.cookie("myoken", token, { maxAge: 9000 });
   res.status(StatusCodes.OK).json({
     user: {
       name: user.name,
