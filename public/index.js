@@ -64,12 +64,17 @@ signUpForm.addEventListener("submit", async (e) => {
         },
         { withCredentials: true }
       );
-
+      const { user } = response.data;
+      const token = user.token;
+      const username = user.name;
+      localStorage.setItem("token", token);
       registerName.value = "";
       registerEmail.value = "";
       registerPassword.value = "";
       registerPasswordConfirm.value = "";
-      // window.location.replace("./main.html");
+
+      window.location.replace("./main.html");
+      signUpForm.removeEventListener("submit");
     } catch (error) {
       if (
         error.response &&
@@ -82,6 +87,7 @@ signUpForm.addEventListener("submit", async (e) => {
           "A user with this email already exists"
         );
         registerEmail.reportValidity();
+        localStorage.removeItem("token");
       }
     }
   } else {
