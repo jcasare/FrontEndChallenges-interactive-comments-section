@@ -23,29 +23,13 @@ const validatePassword = () => {
   } else {
     registerPasswordConfirm.setCustomValidity("");
   }
+  registerEmail.addEventListener("keyup", async function () {
+    this.setCustomValidity("");
+  });
 };
-
-registerEmail.addEventListener("keyup", function () {
-  this.setCustomValidity("");
-});
-// const mainPage = async () => {
-//   const token = Cookies.get("token");
-//   console.log(token);
-//   try {
-//     axios.get("/main", {
-//       withCredentials: true,
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// mainPage();
-//signup button
-signUpForm.addEventListener("submit", async (e) => {
+async function signUpRequest(e) {
   e.preventDefault();
+  const signUpForm = e.target;
   validatePassword();
   registerPassword.onchange = validatePassword;
   registerPasswordConfirm.onkeyup = validatePassword;
@@ -64,17 +48,19 @@ signUpForm.addEventListener("submit", async (e) => {
         },
         { withCredentials: true }
       );
-      const { user } = response.data;
-      const token = user.token;
-      const username = user.name;
-      localStorage.setItem("token", token);
-      registerName.value = "";
-      registerEmail.value = "";
-      registerPassword.value = "";
-      registerPasswordConfirm.value = "";
 
-      window.location.replace("./main.html");
-      signUpForm.removeEventListener("submit");
+      if (response.status === 201) {
+        const { user } = response.data;
+        const token = user.token;
+        const username = user.name;
+        localStorage.setItem("token", token);
+        window.location.href = "/main.html";
+        signUpForm.removeEventListener("submit", handleLogin);
+        registerName.value = "";
+        registerEmail.value = "";
+        registerPassword.value = "";
+        registerPasswordConfirm.value = "";
+      }
     } catch (error) {
       if (
         error.response &&
@@ -93,7 +79,9 @@ signUpForm.addEventListener("submit", async (e) => {
   } else {
     signUpForm.reportValidity();
   }
-});
+}
+
+signUpForm.addEventListener("submit", signUpRequest);
 
 //login button
 signInform.addEventListener("submit", async (e) => {
