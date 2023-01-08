@@ -6,7 +6,6 @@ const registerPassword = document.querySelector(".userSignupPassword");
 const registerPasswordConfirm = document.querySelector(
   ".userSignupPasswordRepeat"
 );
-
 const loginBtn = document.querySelector("#loginBtn");
 const signUpBtn = document.querySelector("#signUpBtn");
 const signUpForm = document.querySelector("#signUpForm");
@@ -27,6 +26,22 @@ const validatePassword = () => {
     this.setCustomValidity("");
   });
 };
+
+// const getMainPage = async (token) => {
+//   try {
+//     console.log(token);
+//     const response = await axios.get("/main", {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     console.log(response.data);
+//     window.location.href = "/main";
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
 async function signUpRequest(e) {
   e.preventDefault();
   const signUpForm = e.target;
@@ -49,18 +64,18 @@ async function signUpRequest(e) {
         { withCredentials: true }
       );
 
-      if (response.status === 201) {
-        const { user } = response.data;
-        const token = user.token;
-        const username = user.name;
-        localStorage.setItem("token", token);
-        window.location.href = "/main.html";
-        signUpForm.removeEventListener("submit", handleLogin);
-        registerName.value = "";
-        registerEmail.value = "";
-        registerPassword.value = "";
-        registerPasswordConfirm.value = "";
-      }
+      // const { user } = response.data;
+      // const token = user.token;
+      // const username = user.name;
+      // localStorage.setItem("token", token);
+
+      // window.location.href = "/main";
+      // signUpForm.removeEventListener("submit", handleLogin);
+      registerName.value = "";
+      registerEmail.value = "";
+      registerPassword.value = "";
+      registerPasswordConfirm.value = "";
+      window.location.href = "/main";
     } catch (error) {
       if (
         error.response &&
@@ -83,24 +98,24 @@ async function signUpRequest(e) {
 
 signUpForm.addEventListener("submit", signUpRequest);
 
-//login button
-signInform.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = loginEmail.value;
-  const password = loginPassword.value;
-  try {
-    const { data } = await axios.post("/api/v1/auth0/login", {
-      email,
-      password,
-    });
-    if (data.msg === "A user with this email already exists") {
-      console.log();
-    }
-    loginEmail.value = "";
-    LoginPassword.value = "";
-  } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.msg);
-    }
-  }
-});
+// //login button
+// signInform.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   const email = loginEmail.value;
+//   const password = loginPassword.value;
+//   try {
+//     const { data } = await axios.post("/api/v1/auth0/login", {
+//       email,
+//       password,
+//     });
+//     if (data.msg === "A user with this email already exists") {
+//       console.log();
+//     }
+//     loginEmail.value = "";
+//     LoginPassword.value = "";
+//   } catch (error) {
+//     if (error.response) {
+//       console.log(error.response.data.msg);
+//     }
+//   }
+// });

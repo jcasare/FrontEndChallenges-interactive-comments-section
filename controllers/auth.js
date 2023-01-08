@@ -8,14 +8,11 @@ const register = async (req, res) => {
     throw new BadRequestError("A user with this email already exists");
   }
   const user = await User.create({ ...req.body });
-  const token = await user.genToken();
-  res.status(StatusCodes.CREATED).json({
-    user: {
-      name: user.name,
-      email: user.email,
-      token,
-    },
-  });
+  const tempToken = await user.genToken();
+  const token = `Bearer ${tempToken}`;
+
+  res.cookie("token", token, { signed: true });
+  res.redirect("/main");
 };
 
 const login = async (req, res) => {
@@ -35,13 +32,8 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("Invalid Credentials");
   }
   const token = user.genToken();
-  res.status(StatusCodes.OK).json({
-    user: {
-      name: user.name,
-      email: user.email,
-      token,
-    },
-  });
+  res.cookie("token", token, { signed: true });
+  res.redirect("/main");
 };
 
 module.exports = { register, login };
