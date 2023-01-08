@@ -91,6 +91,11 @@ async function signUpRequest(e) {
         localStorage.removeItem("token");
       }
     }
+  } else if (
+    error.response &&
+    error.response.data.msg === "Not authorized for this route"
+  ) {
+    window.location.href = "/";
   } else {
     signUpForm.reportValidity();
   }
