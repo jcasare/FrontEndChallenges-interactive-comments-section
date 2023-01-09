@@ -1,4 +1,4 @@
-const loginEmail = document.querySelector(".username-input");
+const loginEmail = document.querySelector(".email-input");
 const loginPassword = document.querySelector(".password-login-input");
 const registerName = document.querySelector(".userName-input-signUp");
 const registerEmail = document.querySelector(".userEmail-input-signUp");
@@ -27,22 +27,7 @@ const validatePassword = () => {
   });
 };
 
-// const getMainPage = async (token) => {
-//   try {
-//     console.log(token);
-//     const response = await axios.get("/main", {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     console.log(response.data);
-//     window.location.href = "/main";
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-async function signUpRequest(e) {
+const signUpRequest = async (e) => {
   e.preventDefault();
   const signUpForm = e.target;
   validatePassword();
@@ -63,14 +48,6 @@ async function signUpRequest(e) {
         },
         { withCredentials: true }
       );
-
-      // const { user } = response.data;
-      // const token = user.token;
-      // const username = user.name;
-      // localStorage.setItem("token", token);
-
-      // window.location.href = "/main";
-      // signUpForm.removeEventListener("submit", handleLogin);
       registerName.value = "";
       registerEmail.value = "";
       registerPassword.value = "";
@@ -81,9 +58,9 @@ async function signUpRequest(e) {
         error.response &&
         error.response.data.msg === "A user with this email already exists"
       ) {
-        // toggleForm();
-        // window.location.replace("/#signUpForm");
-        // toggleForm();
+        toggleForm();
+        window.location.replace("/#signUpForm");
+        toggleForm();
         registerEmail.setCustomValidity(
           "A user with this email already exists"
         );
@@ -96,31 +73,55 @@ async function signUpRequest(e) {
     error.response.data.msg === "Not authorized for this route"
   ) {
     window.location.href = "/";
-  } else {
+  } else if (
+    error.response &&
+    error.response.data.msg === "Kindly fill out all fields"
+  ) {
+    registerEmail.setCustomValidity("Kindly fill out all fields");
     signUpForm.reportValidity();
+  } else {
+    console.log(error.response);
   }
-}
+};
+
+const loginRequest = async (e) => {
+  e.preventDefault();
+  const signInform = e.target;
+  loginEmail.setCustomValidity("");
+  const email = loginEmail.value;
+  const password = loginPassword.value;
+  if (signInform.checkValidity()) {
+    try {
+      const response = await axios.post(
+        "/api/v1/auth0/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
+      loginEmail.value = "";
+      loginPassword.value = "";
+      window.location.href = "/main";
+    } catch (error) {
+      if (error.response && error.response === "Invalid Credentials") {
+        loginEmail.setCustomValidity("Invalid email or password");
+        signInform.reportValidity();
+      } else if (
+        error.response &&
+        error.response === "Please provide email and password"
+      ) {
+        loginEmail.setCustomValidity("Please provide email and password");
+        signInform.reportValidity;
+      } else {
+        console.log(error.response);
+      }
+    }
+  }
+};
 
 signUpForm.addEventListener("submit", signUpRequest);
 
 // //login button
-// signInform.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const email = loginEmail.value;
-//   const password = loginPassword.value;
-//   try {
-//     const { data } = await axios.post("/api/v1/auth0/login", {
-//       email,
-//       password,
-//     });
-//     if (data.msg === "A user with this email already exists") {
-//       console.log();
-//     }
-//     loginEmail.value = "";
-//     LoginPassword.value = "";
-//   } catch (error) {
-//     if (error.response) {
-//       console.log(error.response.data.msg);
-//     }
-//   }
-// });
+
+signInform.addEventListener("submit", loginRequest);

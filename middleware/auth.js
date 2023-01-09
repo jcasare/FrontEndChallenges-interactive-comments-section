@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const authMiddleware = async (req, res, next) => {
   const signedCookies = req.signedCookies;
   const authToken = signedCookies.token;
-
+  console.log(authToken);
   const refreshToken = async (oldToken) => {
     const payload = await jwt.verify(oldToken, process.env_JWT_SECRET);
     payload.exp = Date.now() / 1000 + 3600;

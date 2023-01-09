@@ -4,6 +4,9 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 const tokenInactivityTime = new Date(Date.now() + 1800000);
 const register = async (req, res) => {
   const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    throw new BadRequestError("Kindly fill out all fields");
+  }
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new BadRequestError("A user with this email already exists");
@@ -37,7 +40,8 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("Invalid Credentials");
   }
   //generate token and send as cookie to redirected page
-  const token = user.genToken();
+  const tempToken = await user.genToken();
+  const token = `Bearer ${tempToken}`;
   res.cookie("token", token, {
     signed: true,
     maxAge: 3600000,
