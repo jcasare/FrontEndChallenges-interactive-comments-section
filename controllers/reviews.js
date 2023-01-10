@@ -6,7 +6,9 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 //getting all reviews with their respective author names
 
 const getReviews = async (req, res) => {
-  const reviews = await Review.find({}).populate("user", "name").exec();
+  const reviews = await Review.find({})
+    .populate({ path: "user", select: "name" })
+    .exec();
   res.status(StatusCodes.OK).json({ reviews });
 };
 
@@ -15,16 +17,18 @@ const getReviews = async (req, res) => {
 const createReview = async (req, res) => {
   const { userID, username } = req.user;
   const { reviewText, rating } = req.body;
-  req.body.userID = userID;
+  req.body.user = userID;
+  console.log(req.body);
   if (!reviewText || !rating || !userID) {
-    return res.status(StatusCodes.OK).json({ msg: "Review already exists" });
+    throw new BadRequestError("Make sure all fields are filled");
   }
-  const existingReview = await Review.findOne({ ...req.body });
-  if (!existingReview) {
-    throw BadRequestError("Review already exists");
-  }
+  // const existingReview = await Review.findOne({ ...req.body });
+  // if (!existingReview) {
+  //   throw BadRequestError("Review already exists");
+  // }
   const review = await Review.create({ ...req.body });
-  res.status(StatusCodes.CREATED).json({ review });
+
+  res.status(StatusCodes.CREATED).json({ review, username });
 };
 
 //Update Review

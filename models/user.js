@@ -12,11 +12,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "username must be provided"],
     minLength: [3, "username cannot be less than 3 characters"],
+    unique: [true, "username already exists"],
   },
   email: {
     type: String,
     required: [true, "email must be provided"],
-    unique: true,
+    unique: [true, "email already exists"],
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please provide a valid email address",

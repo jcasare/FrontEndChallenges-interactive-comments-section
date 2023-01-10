@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const connectDB = (url) => {
-  return new mongoose.connect(url, {
-    useCreateIndex: true,
+const connectDB = (uri) => {
+  return new mongoose.connect(uri, {
     useNewUrlParser: true,
-    useFindAndModify: false,
+    autoIndex: true,
+    serverSelectionTimeoutMS: 5000,
     useUnifiedTopology: true,
   });
 };

@@ -6,6 +6,7 @@ require("dotenv").config();
 require("express-async-errors");
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
+const reviewRouter = require("./routes/reviews");
 const authMiddleware = require("./middleware/auth");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
@@ -26,6 +27,7 @@ app.use("/api/v1/auth0", authRouter);
 app.use("/main", authMiddleware, (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public", "main.html"));
 });
+app.use("/api/v1", reviewRouter);
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
