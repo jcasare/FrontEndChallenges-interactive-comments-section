@@ -1,7 +1,12 @@
 const Review = require("../models/reviews");
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, UnauthenticatedError } = require("../errors");
+const {
+  BadRequestError,
+  UnauthenticatedError,
+  NotFoundError,
+} = require("../errors");
+const { findOneAndReplace } = require("../models/reviews");
 
 //getting all reviews with their respective author names
 
@@ -22,15 +27,37 @@ const createReview = async (req, res) => {
   if (!reviewText || !rating || !userID) {
     throw new BadRequestError("Make sure all fields are filled");
   }
-  // const existingReview = await Review.findOne({ ...req.body });
-  // if (!existingReview) {
-  //   throw BadRequestError("Review already exists");
-  // }
+  const existingReview = await Review.findOne({ ...req.body });
+  if (!existingReview) {
+    throw BadRequestError("Review already exists");
+  }
   const review = await Review.create({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({ review, username });
 };
 
 //Update Review
+const updateReview = async (req, res) => {
+  const {
+    body: { reviewText, rating },
+    user: { userID, username },
+    params: { reviewID },
+  } = req;
+  if (reviewText === "" || rating === "") {
+    throw new BadRequestError("reviewText and rating fields cannot be empty");
+  }
+  const review = await findOneAndReplace(
+    { _id: reviewID, user: userID },
+    { ...req.body },
+    { new: true, runValidators: true }
+  );
+  if (!review) {
+    throw new NotFoundError(`Review with id ${reviewID} doesn't exist`);
+  }
+  return res.status(StatusCodes.OK).json({ review, username });
+};
 
-module.exports = { getReviews, createReview };
+//Delete Review
+const deleteReview = async (req, res) => {};
+
+module.exports = { getReviews, createReview, updateReview };
