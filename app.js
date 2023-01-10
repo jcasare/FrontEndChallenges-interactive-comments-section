@@ -13,10 +13,8 @@ const cookieParser = require("cookie-parser");
 const staticRouteMiddleware = require("./middleware/static-route");
 // middlewares;
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
-});
-app.use(staticRouteMiddleware);
+
+// app.use(staticRouteMiddleware);
 app.use(express.static("./public"));
 
 app.use(express.json());

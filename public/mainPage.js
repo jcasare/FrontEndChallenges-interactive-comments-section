@@ -1,14 +1,15 @@
-// const getMainPage = async (token) => {
-//   try {
-//     console.log(token);
-//     const response = await axios.get("/main", {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     console.log(response.data);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-// document.addEventListener("onload", getMainPage(localStorage.getItem("token")));
+const createForm = document.querySelector("#create-form");
+const createInput = document.querySelector("#create-input");
+
+const sendReview = async (e) => {
+  e.preventDefault();
+  const createForm = e.target;
+  const userReview = createInput.value;
+  try {
+    const { data } = await axios.post(
+      "/api/v1/reviews",
+      { userReview },
+      { withCredentials: true }
+    );
+  } catch (error) {}
+};
