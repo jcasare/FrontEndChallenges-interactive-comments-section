@@ -1,7 +1,7 @@
 const reviewForm = document.querySelector("#review-form");
 const createInput = document.querySelector("#create-input");
 const createRating = document.querySelector("#create-rating");
-
+const reviewContainer = documet.querySelector("#reviews-container");
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const reviewText = createInput.value;
@@ -35,5 +35,7 @@ const getReviews = async () => {
     console.log(error);
   }
 };
+getReviews();
+reviewContainer.createElement("<p>${d");
 
 function showReview(review) {}

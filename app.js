@@ -19,12 +19,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static("./public"));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //routes
 
 app.use("/api/v1/auth0", authRouter);
 
-app.use("/main", authMiddleware, (req, res) => {
+app.use("/dashboard", authMiddleware, (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public", "main.html"));
 });
 app.use("/api/v1", reviewRouter);
