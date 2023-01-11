@@ -12,8 +12,8 @@ const { findOneAndReplace } = require("../models/reviews");
 
 const getReviews = async (req, res) => {
   const reviews = await Review.find({})
-    .populate({ path: "user", select: "name" })
-    .exec();
+    .populate({ path: "user", select: "name _id" })
+    .execPopulate();
   res.status(StatusCodes.OK).json({ reviews });
 };
 
@@ -54,10 +54,22 @@ const updateReview = async (req, res) => {
   if (!review) {
     throw new NotFoundError(`Review with id ${reviewID} doesn't exist`);
   }
-  return res.status(StatusCodes.OK).json({ review, username });
+  res.status(StatusCodes.OK).json({ review, username });
 };
 
 //Delete Review
-const deleteReview = async (req, res) => {};
+const deleteReview = async (req, res) => {
+  const {
+    user: { userID },
+    params: { reviewID },
+  } = req;
+  const review = await Review.findOneAndDelete({ _id: reviewID, user: userID });
+  if (!review) {
+    throw new NotFoundError(`Review with id ${reviewID} doesn't exist`);
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: `Job with id ${reviewID} has been deleted` });
+};
 
-module.exports = { getReviews, createReview, updateReview };
+module.exports = { getReviews, createReview, updateReview, deleteReview };
