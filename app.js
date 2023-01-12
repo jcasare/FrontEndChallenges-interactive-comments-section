@@ -12,8 +12,17 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
 const cookieParser = require("cookie-parser");
 const staticRouteMiddleware = require("./middleware/static-route");
+const tokenInactivityTime = new Date(Date.now() + 1800000);
 // middlewares;
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(
+  cookieParser("mysecretkey", {
+    secure: true,
+    httpOnly: true,
+    secure: true,
+    maxAge: 3600000,
+    expires: tokenInactivityTime,
+  })
+);
 
 // app.use(staticRouteMiddleware);
 app.use(express.static("./public"));

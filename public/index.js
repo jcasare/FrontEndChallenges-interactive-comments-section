@@ -52,7 +52,10 @@ const signUpRequest = async (e) => {
       registerEmail.value = "";
       registerPassword.value = "";
       registerPasswordConfirm.value = "";
-      window.location.href = "/main";
+      if (response.status === 201 && response.data.status === "success") {
+        toggleForm();
+      }
+      // window.location.href = "/main";
     } catch (error) {
       if (
         error.response &&
@@ -102,7 +105,7 @@ const loginRequest = async (e) => {
       );
       loginEmail.value = "";
       loginPassword.value = "";
-      window.location.href = "/main";
+      window.location.href = "/dashboard";
     } catch (error) {
       if (error.response && error.response === "Invalid Credentials") {
         loginEmail.setCustomValidity("Invalid email or password");

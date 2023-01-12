@@ -1,5 +1,6 @@
 const Review = require("../models/reviews");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 const {
   BadRequestError,
@@ -11,25 +12,32 @@ const { findOneAndReplace } = require("../models/reviews");
 //getting all reviews with their respective author names
 
 const getReviews = async (req, res) => {
-  const reviews = await Review.find({})
-    .populate({ path: "user", select: "name _id" })
-    .execPopulate();
-  res.status(StatusCodes.OK).json({ reviews });
+  console.log(req.user);
+  // const reviews = await Review.find({})
+  //   .populate({ path: "user", select: "name _id" })
+  //   .exec();
+  // res.status(StatusCodes.OK).json({ reviews, myuser: req.user });
 };
 
 //create review
 
 const createReview = async (req, res) => {
+  // const tokenHeader = req.headers.cookie;
+  // const access_token = tokenHeader.split("=")[1];
+  // console.log(access_token);
+  const token = req.signedCookies.token;
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
+  console.log(payload);
   const { userID, username } = req.user;
   const { reviewText, rating } = req.body;
   req.body.user = userID;
-  console.log(req.body);
+
   if (!reviewText || !rating || !userID) {
     throw new BadRequestError("Make sure all fields are filled");
   }
   const existingReview = await Review.findOne({ ...req.body });
-  if (!existingReview) {
-    throw BadRequestError("Review already exists");
+  if (existingReview) {
+    throw new BadRequestError("Review already exists");
   }
   const review = await Review.create({ ...req.body });
 

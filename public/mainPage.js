@@ -1,16 +1,21 @@
+// const access_token = Cookies.get("token");
 const reviewForm = document.querySelector("#review-form");
 const createInput = document.querySelector("#create-input");
 const createRating = document.querySelector("#create-rating");
-const reviewContainer = documet.querySelector("#reviews-container");
+const reviewContainer = document.querySelector("#reviews-container");
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const reviewText = createInput.value;
   const rating = createRating.value;
   try {
     const {
-      data: { review },
-    } = await createReview({ reviewText, rating });
-    showReview(review);
+      data: { reviews },
+    } = await axios.post(
+      "/api/v1/reviews",
+      { reviewText, rating },
+      { withCredentials: true }
+    );
+    console.log(reviews);
   } catch (error) {
     console.log(error);
   }
@@ -36,6 +41,12 @@ const getReviews = async () => {
   }
 };
 getReviews();
-reviewContainer.createElement("<p>${d");
 
-function showReview(review) {}
+function showReview(review) {
+  const reviewElement = document.createElement("div");
+  reviewElement.classList.add("review");
+
+  const authorElement = document.createElement("p");
+  authorElement.classList.add("review-author");
+  // authorElement.textContent=review.
+}
