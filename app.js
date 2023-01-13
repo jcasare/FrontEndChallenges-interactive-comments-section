@@ -15,7 +15,7 @@ const staticRouteMiddleware = require("./middleware/static-route");
 const tokenInactivityTime = new Date(Date.now() + 1800000);
 // middlewares;
 app.use(
-  cookieParser("mysecretkey", {
+  cookieParser(process.env.COOKIE_SECRET, {
     secure: true,
     httpOnly: true,
     secure: true,

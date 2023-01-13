@@ -26,6 +26,12 @@ const validatePassword = () => {
     this.setCustomValidity("");
   });
 };
+const loginValidity = () => {
+  loginEmail.setCustomValidity("");
+  loginEmail.reportValidity();
+  loginPassword.setCustomValidity("");
+  loginPassword.reportValidity();
+};
 
 const signUpRequest = async (e) => {
   e.preventDefault();
@@ -91,6 +97,7 @@ const loginRequest = async (e) => {
   e.preventDefault();
   const signInform = e.target;
   loginEmail.setCustomValidity("");
+  loginPassword.setCustomValidity("");
   const email = loginEmail.value;
   const password = loginPassword.value;
   if (signInform.checkValidity()) {
@@ -107,14 +114,18 @@ const loginRequest = async (e) => {
       loginPassword.value = "";
       window.location.href = "/dashboard";
     } catch (error) {
-      if (error.response && error.response === "Invalid Credentials") {
-        loginEmail.setCustomValidity("Invalid email or password");
+      if (error.response && error.response.data.msg === "Invalid Credentials") {
+        loginPassword.setCustomValidity("Invalid email or password");
         signInform.reportValidity();
+        loginEmail.value = "";
+        loginEmail.onchange = loginValidity;
+        loginPassword.onchange = loginValidity;
       } else if (
         error.response &&
-        error.response === "Please provide email and password"
+        error.response.data.msg === "Please provide email and password"
       ) {
         loginEmail.setCustomValidity("Please provide email and password");
+        loginPassword.setCustomValidity("Please provide email and password");
         signInform.reportValidity;
       } else {
         console.log(error.response);

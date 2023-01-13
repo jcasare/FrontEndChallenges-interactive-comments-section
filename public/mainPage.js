@@ -3,44 +3,47 @@ const reviewForm = document.querySelector("#review-form");
 const createInput = document.querySelector("#create-input");
 const createRating = document.querySelector("#create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
+// let currentUser;
+// const getCurrentUser = async () => {
+//   try {
+//     const { data } = await axios.get("/api/user");
+//     currentUser = data.user;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const reviewText = createInput.value;
   const rating = createRating.value;
   try {
     const {
-      data: { reviews },
+      data: { review },
     } = await axios.post(
       "/api/v1/reviews",
       { reviewText, rating },
       { withCredentials: true }
     );
-    console.log(reviews);
+    console.log(review);
   } catch (error) {
     console.log(error);
   }
 });
 
-const createReview = async (review) => {
-  try {
-    const { data } = await axios.post("/api/v1/reviews", review, {
-      withCredentials: true,
-    });
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const getReviews = async () => {
   try {
-    const { data } = await axios.get("/api/v1/reviews");
-    return data;
+    const {
+      data: { reviews },
+    } = await axios.get("/api/v1/reviews");
+    for (let review of reviews) {
+      showReview(review);
+    }
   } catch (error) {
     console.log(error);
   }
 };
-getReviews();
+// getReviews();
 
 function showReview(review) {
   const reviewElement = document.createElement("div");
@@ -48,5 +51,12 @@ function showReview(review) {
 
   const authorElement = document.createElement("p");
   authorElement.classList.add("review-author");
-  // authorElement.textContent=review.
+  authorElement.textContent = review.author;
+
+  const reviewTextElement = document.createElement("p");
+  reviewTextElement.classList.add("review-text");
+  reviewElement.textContent = review.reviewText;
+  reviewElement.appendChild(authorElement);
+  reviewElement.appendChild(reviewTextElement);
+  reviewContainer.appendChild(reviewElement);
 }

@@ -12,23 +12,29 @@ const { findOneAndReplace } = require("../models/reviews");
 //getting all reviews with their respective author names
 
 const getReviews = async (req, res) => {
-  console.log(req.user);
-  // const reviews = await Review.find({})
-  //   .populate({ path: "user", select: "name _id" })
-  //   .exec();
-  // res.status(StatusCodes.OK).json({ reviews, myuser: req.user });
+  const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
+  const { username: name } = payload;
+  const reviews = await Review.find({})
+    .populate({ path: "author", select: "name _id" })
+    .exec();
+  res.status(StatusCodes.OK).json({ reviews, username });
 };
 
 //create review
 
 const createReview = async (req, res) => {
-  // const tokenHeader = req.headers.cookie;
-  // const access_token = tokenHeader.split("=")[1];
-  // console.log(access_token);
   const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
+
   console.log(payload);
-  const { userID, username } = req.user;
+  const { userID, name } = payload;
   const { reviewText, rating } = req.body;
   req.body.user = userID;
 
@@ -40,12 +46,16 @@ const createReview = async (req, res) => {
     throw new BadRequestError("Review already exists");
   }
   const review = await Review.create({ ...req.body });
-
-  res.status(StatusCodes.CREATED).json({ review, username });
+  await review.populate({ path: "user", select: "name _id" }).execPopulate();
+  res.status(StatusCodes.CREATED).json({ review });
 };
 
 //Update Review
 const updateReview = async (req, res) => {
+  const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
   const {
     body: { reviewText, rating },
     user: { userID, username },
@@ -67,10 +77,13 @@ const updateReview = async (req, res) => {
 
 //Delete Review
 const deleteReview = async (req, res) => {
-  const {
-    user: { userID },
-    params: { reviewID },
-  } = req;
+  const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
+  const reviewID = req.params.id;
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
+  const { userID, name } = payload;
   const review = await Review.findOneAndDelete({ _id: reviewID, user: userID });
   if (!review) {
     throw new NotFoundError(`Review with id ${reviewID} doesn't exist`);
