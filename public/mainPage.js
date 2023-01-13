@@ -12,7 +12,27 @@ const reviewContainer = document.querySelector("#reviews-container");
 //     console.log(error);
 //   }
 // };
+const getTimeAgo = (createdAt) => {
+  const currentTime = new Date();
+  //difference in milli-secs
+  const diff = currentTime - new Date(createdAt);
+  //difference in seconds
+  const diffInSeconds = diff / 1000;
+  //difference in minutes
+  const diffInMinutes = diffInSeconds / 60;
+  //difference in days
+  const diffInDays = diffInMinutes / 60 / 24;
 
+  if (diffInSeconds < 60) {
+    return Math.floor(diffInSeconds) + " seconds ago";
+  } else if (diffInMinutes < 60) {
+    return Math.floor(diffInMinutes) + " minutes ago";
+  } else if (diffInDays < 1) {
+    return Math.floor(diffInMinutes / 60) + " hours ago";
+  } else {
+    return Math.floor(diffInDays) + " days ago";
+  }
+};
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const reviewText = createInput.value;
@@ -25,7 +45,9 @@ reviewForm.addEventListener("submit", async (e) => {
       { reviewText, rating },
       { withCredentials: true }
     );
-    console.log(review);
+    createInput.value = "";
+    createRating.value = "1";
+    getReviews();
   } catch (error) {
     console.log(error);
   }
@@ -39,11 +61,12 @@ const getReviews = async () => {
     for (let review of reviews) {
       showReview(review);
     }
+    console.log(reviews);
   } catch (error) {
     console.log(error);
   }
 };
-// getReviews();
+getReviews();
 
 function showReview(review) {
   const reviewElement = document.createElement("div");
@@ -51,12 +74,16 @@ function showReview(review) {
 
   const authorElement = document.createElement("p");
   authorElement.classList.add("review-author");
-  authorElement.textContent = review.author;
+  authorElement.textContent = review.author.name;
+  const reviewTimeElement = document.createElement("p");
+  reviewTimeElement.classList.add("review-time");
+  reviewTimeElement.textContent = getTimeAgo(review.createdAt);
 
   const reviewTextElement = document.createElement("p");
   reviewTextElement.classList.add("review-text");
   reviewElement.textContent = review.reviewText;
   reviewElement.appendChild(authorElement);
   reviewElement.appendChild(reviewTextElement);
+  reviewElement.appendChild(reviewTimeElement);
   reviewContainer.appendChild(reviewElement);
 }

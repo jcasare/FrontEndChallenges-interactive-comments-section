@@ -17,8 +17,9 @@ const getReviews = async (req, res) => {
     res.redirect("/");
   }
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  const { username: name } = payload;
+  const { name: username } = payload;
   const reviews = await Review.find({})
+    .sort({ createdAt: -1 })
     .populate({ path: "author", select: "name _id" })
     .exec();
   res.status(StatusCodes.OK).json({ reviews, username });
@@ -32,11 +33,9 @@ const createReview = async (req, res) => {
     res.redirect("/");
   }
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-
-  console.log(payload);
   const { userID, name } = payload;
   const { reviewText, rating } = req.body;
-  req.body.user = userID;
+  req.body.author = userID;
 
   if (!reviewText || !rating || !userID) {
     throw new BadRequestError("Make sure all fields are filled");
@@ -46,7 +45,13 @@ const createReview = async (req, res) => {
     throw new BadRequestError("Review already exists");
   }
   const review = await Review.create({ ...req.body });
-  await review.populate({ path: "user", select: "name _id" }).execPopulate();
+  // const review = await Review.find({ myReview })
+  //   .populate({ path: "author", select: "name _id" })
+  //   .exec();
+  // const reawait review.populate({ path: "author", select: "name _id" }).exec();
+  // const review = (await new Review({ ...req.body }).save())
+  //   .populate({ path: "author", select: "name _id" })
+  //   .exec();
   res.status(StatusCodes.CREATED).json({ review });
 };
 
