@@ -5,16 +5,17 @@ const createRating = document.querySelector("#create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
 const loadingAlert = document.querySelector(".loading-text");
 const reviewsDOM = document.querySelector(".reviews");
+
 //Load Reviews from /api/v1/revies
 const showReviews = async () => {
-  loadingAlert.style.visiblity = "visible";
+  // loadingAlert.style.visiblity = "visible";
   try {
     const {
-      data: { reviews },
+      data: { reviews, userID },
     } = await axios.get("/api/v1/reviews");
     if (reviews.length < 1) {
-      reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       loadingAlert.style.visiblity = "hidden";
+      reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
     const showAllReviews = reviews
@@ -30,29 +31,31 @@ const showReviews = async () => {
         return `<div class="single-review">
       <p class="author-name">${authorName}</p>
       <p class = "review-time">${getTimeAgo(createdAt)}</p>
+      <p class = "review-rating">${rating}</p>
       <p class = "review-text"> ${reviewText}</p>
         <div class="review-links">
-
-        <!-- edit review -->
-        <a href ="main.html?id=${reviewID}" class="edit-link">
+        ${
+          authorID.toString() === userID.toString()
+            ? `<!-- edit review -->
+        <a href ="reviews?id=${reviewID}" class="edit-link">
         <i class="fas fa-edit"></i>
         </a>
 
           <!-- delete btn -->
           <button type="button" class = "delete-btn" data-id="${reviewID}">
           <i class="fas fa-trash"></i>
-          </button>
-
+          </button>`
+            : ""
+        }
         </div>
-
       </div`;
       })
       .join("");
     reviewsDOM.innerHTML = showAllReviews;
   } catch (error) {
     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
+    console.log(error);
   }
-  loadingAlert.style.visiblity = "hidden";
 };
 const getTimeAgo = (createdAt) => {
   const currentTime = new Date();
@@ -94,6 +97,7 @@ reviewForm.addEventListener("submit", async (e) => {
     if (review) {
       showReviews();
     }
+    loadingAlert.style.visiblity = "hidden";
   } catch (error) {
     console.log(error);
   }

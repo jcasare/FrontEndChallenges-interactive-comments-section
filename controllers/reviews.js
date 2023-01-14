@@ -17,12 +17,12 @@ const getReviews = async (req, res) => {
     res.redirect("/");
   }
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  const { name: username } = payload;
+  const { userID } = payload;
   const reviews = await Review.find({})
     .sort({ createdAt: -1 })
     .populate({ path: "author", select: "name _id" })
     .exec();
-  res.status(StatusCodes.OK).json({ reviews, username });
+  res.status(StatusCodes.OK).json({ reviews, userID });
 };
 
 //create review
