@@ -3,15 +3,57 @@ const reviewForm = document.querySelector("#review-form");
 const createInput = document.querySelector("#create-input");
 const createRating = document.querySelector("#create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
-// let currentUser;
-// const getCurrentUser = async () => {
-//   try {
-//     const { data } = await axios.get("/api/user");
-//     currentUser = data.user;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const loadingAlert = document.querySelector(".loading-text");
+const reviewsDOM = document.querySelector(".reviews");
+//Load Reviews from /api/v1/revies
+const showReviews = async () => {
+  loadingAlert.style.visiblity = "visible";
+  try {
+    const {
+      data: { reviews },
+    } = await axios.get("/api/v1/reviews");
+    if (reviews.length < 1) {
+      reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
+      loadingAlert.style.visiblity = "hidden";
+      return;
+    }
+    const showAllReviews = reviews
+      .map((review) => {
+        const {
+          reviewText,
+          rating,
+          createdAt,
+          _id: reviewID,
+          author: { _id: authorID, name: authorName },
+        } = review;
+
+        return `<div class="single-review">
+      <p class="author-name">${authorName}</p>
+      <p class = "review-time">${getTimeAgo(createdAt)}</p>
+      <p class = "review-text"> ${reviewText}</p>
+        <div class="review-links">
+
+        <!-- edit review -->
+        <a href ="main.html?id=${reviewID}" class="edit-link">
+        <i class="fas fa-edit"></i>
+        </a>
+
+          <!-- delete btn -->
+          <button type="button" class = "delete-btn" data-id="${reviewID}">
+          <i class="fas fa-trash"></i>
+          </button>
+
+        </div>
+
+      </div`;
+      })
+      .join("");
+    reviewsDOM.innerHTML = showAllReviews;
+  } catch (error) {
+    reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
+  }
+  loadingAlert.style.visiblity = "hidden";
+};
 const getTimeAgo = (createdAt) => {
   const currentTime = new Date();
   //difference in milli-secs
@@ -33,6 +75,7 @@ const getTimeAgo = (createdAt) => {
     return Math.floor(diffInDays) + " days ago";
   }
 };
+showReviews();
 
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -49,52 +92,53 @@ reviewForm.addEventListener("submit", async (e) => {
     createInput.value = "";
     createRating.value = "1";
     if (review) {
-      addNewReview(review[0]);
+      showReviews();
     }
   } catch (error) {
     console.log(error);
   }
+  setTimeout(() => {});
 });
 
-const getReviews = async () => {
-  try {
-    const {
-      data: { reviews },
-    } = await axios.get("/api/v1/reviews");
-    for (let review of reviews) {
-      showReview(review);
-    }
-    console.log(reviews);
-  } catch (error) {
-    console.log(error);
-  }
-};
-document.addEventListener("load", getReviews());
-function showReview(review) {
-  const reviewElement = document.createElement("div");
-  reviewElement.classList.add("review");
+// const getReviews = async () => {
+//   try {
+//     const {
+//       data: { reviews },
+//     } = await axios.get("/api/v1/reviews");
+//     for (let review of reviews) {
+//       showReview(review);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// document.addEventListener("load", getReviews());
+// function showReview(review) {
+//   const reviewElement = document.createElement("div");
+//   reviewElement.classList.add("review");
 
-  const authorElement = document.createElement("p");
-  authorElement.classList.add("review-author");
-  authorElement.textContent = review.author.name;
-  const reviewTimeElement = document.createElement("p");
-  reviewTimeElement.classList.add("review-time");
-  reviewTimeElement.textContent = getTimeAgo(review.createdAt);
+//   const authorElement = document.createElement("p");
+//   authorElement.classList.add("review-author");
+//   authorElement.textContent = review.author.name;
+//   const reviewTimeElement = document.createElement("p");
+//   reviewTimeElement.classList.add("review-time");
+//   reviewTimeElement.textContent = getTimeAgo(review.createdAt);
 
-  const reviewTextElement = document.createElement("p");
-  reviewTextElement.classList.add("review-text");
-  reviewElement.textContent = review.reviewText;
-  reviewElement.appendChild(authorElement);
-  reviewElement.appendChild(reviewTextElement);
-  reviewElement.appendChild(reviewTimeElement);
-  reviewContainer.appendChild(reviewElement);
-}
-function addNewReview(review) {
-  const newReviewElement = document.createElement("div");
-  newReviewElement.innerHTML = `<p class = 'review-text'>${
-    review.reviewText
-  }</p>
-        <p class = 'review-author'>${review.author.name}</p>
-        <p class = 'review-time'>${getTimeAgo(review.createdAt)}</p>`;
-  reviewContainer.appendChild(newReviewElement);
-}
+//   const reviewTextElement = document.createElement("p");
+//   reviewTextElement.classList.add("review-text");
+//   reviewElement.textContent = review.reviewText;
+//   reviewElement.appendChild(authorElement);
+//   reviewElement.appendChild(reviewTextElement);
+//   reviewElement.appendChild(reviewTimeElement);
+//   reviewContainer.appendChild(reviewElement);
+// }
+// function addNewReview(review) {
+//   const newReviewElement = document.createElement("div");
+//   newReviewElement.innerHTML = `<p class = 'review-text'>${
+//     review.reviewText
+//   }</p>
+//         <p class = 'review-author'>${review.author.name}</p>
+//         <p class = 'review-time'>${getTimeAgo(review.createdAt)}</p>`;
+//   reviewContainer.appendChild(newReviewElement);
+//   window.location.href = "/dashboard";
+// }
