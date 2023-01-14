@@ -33,6 +33,7 @@ const getTimeAgo = (createdAt) => {
     return Math.floor(diffInDays) + " days ago";
   }
 };
+
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const reviewText = createInput.value;
@@ -47,7 +48,9 @@ reviewForm.addEventListener("submit", async (e) => {
     );
     createInput.value = "";
     createRating.value = "1";
-    getReviews();
+    if (review) {
+      addNewReview(review[0]);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -66,8 +69,7 @@ const getReviews = async () => {
     console.log(error);
   }
 };
-getReviews();
-
+document.addEventListener("load", getReviews());
 function showReview(review) {
   const reviewElement = document.createElement("div");
   reviewElement.classList.add("review");
@@ -86,4 +88,13 @@ function showReview(review) {
   reviewElement.appendChild(reviewTextElement);
   reviewElement.appendChild(reviewTimeElement);
   reviewContainer.appendChild(reviewElement);
+}
+function addNewReview(review) {
+  const newReviewElement = document.createElement("div");
+  newReviewElement.innerHTML = `<p class = 'review-text'>${
+    review.reviewText
+  }</p>
+        <p class = 'review-author'>${review.author.name}</p>
+        <p class = 'review-time'>${getTimeAgo(review.createdAt)}</p>`;
+  reviewContainer.appendChild(newReviewElement);
 }

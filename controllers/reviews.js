@@ -44,14 +44,10 @@ const createReview = async (req, res) => {
   if (existingReview) {
     throw new BadRequestError("Review already exists");
   }
-  const review = await Review.create({ ...req.body });
-  // const review = await Review.find({ myReview })
-  //   .populate({ path: "author", select: "name _id" })
-  //   .exec();
-  // const reawait review.populate({ path: "author", select: "name _id" }).exec();
-  // const review = (await new Review({ ...req.body }).save())
-  //   .populate({ path: "author", select: "name _id" })
-  //   .exec();
+  const newReview = await Review.create({ ...req.body });
+  const review = await Review.find({ newReview })
+    .populate({ path: "author", select: "name _id" })
+    .exec();
   res.status(StatusCodes.CREATED).json({ review });
 };
 
