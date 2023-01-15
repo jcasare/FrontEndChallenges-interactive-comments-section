@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Review</title>
+</head>
+<body>
+    <main>
+        <div class="overall-container">
+            <form class="single-review-form">
+                <h4>Edit Review</h4>
+                <div class="form-control">
+                    <label>Review ID</label>
+                    <p class="review-edit-id"></p>
+                </div>
+                <div class="form-control">
+                    <label for="reviewText">Review</label>
+                    <input type="text" name="reviewText" class="review-text" />
+    
+                </div>
+                <div class="form-control">
+                    <label for="reviewText">Review</label>
+                    <input type="text" name="reviewText" class="review-text" />
+                
+                </div>
+                <div class="form-control">
+                    <label for="create-rating">Rating:</label>
+                    <select id="create-rating" class="ratingSelected">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn review-edit-btn">Edit</button>
+                <div class="form-alert"></div>
+            </form>
+            <a href="main.html" class="btn back-link">Back To Reviews</a>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./edit-review.js
+    "></script>
+</body>
+</html>

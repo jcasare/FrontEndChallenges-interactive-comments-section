@@ -33,6 +33,7 @@ const showReviews = async () => {
       <p class = "review-time">${getTimeAgo(createdAt)}</p>
       <p class = "review-rating">${rating}</p>
       <p class = "review-text"> ${reviewText}</p>
+
         <div class="review-links">
         ${
           authorID.toString() === userID.toString()
@@ -54,7 +55,6 @@ const showReviews = async () => {
     reviewsDOM.innerHTML = showAllReviews;
   } catch (error) {
     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
-    console.log(error);
   }
 };
 const getTimeAgo = (createdAt) => {
@@ -96,8 +96,8 @@ reviewForm.addEventListener("submit", async (e) => {
     createRating.value = "1";
     if (review) {
       showReviews();
+      loadingAlert.style.visiblity = "hidden";
     }
-    loadingAlert.style.visiblity = "hidden";
   } catch (error) {
     console.log(error);
   }
