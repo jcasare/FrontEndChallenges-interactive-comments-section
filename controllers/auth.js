@@ -1,7 +1,8 @@
 const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, UnauthenticatedError } = require("../errors");
-const tokenInactivityTime = new Date(Date.now() + 1800000);
+const tokenExpiryDate = 300000;
+const tokenMaxAge = 3600000;
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -46,6 +47,10 @@ const login = async (req, res) => {
   const token = await user.genToken();
   res.cookie("token", token, {
     signed: true,
+    expires: tokenExpiryDate,
+    maxAge: tokenMaxAge,
+    httpOnly: true,
+    secure: true,
   });
   res.redirect("/dashboard");
 };

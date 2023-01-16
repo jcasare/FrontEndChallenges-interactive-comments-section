@@ -1,5 +1,7 @@
 const UnauthenticatedError = require("../errors/Unauthenticated");
 const jwt = require("jsonwebtoken");
+const tokenExpiryDate = 300000;
+const tokenMaxAge = 3600000;
 const authMiddleware = async (req, res, next) => {
   const token = req.signedCookies.token;
   const refreshToken = async (oldToken) => {
@@ -18,10 +20,22 @@ const authMiddleware = async (req, res, next) => {
     if (payload.exp < Date.now() / 1000) {
       const refreshedToken = refreshToken(token);
       // console.log("expired token");
-      res.cookie("token", refreshedToken, { signed: true });
+      res.cookie("token", refreshedToken, {
+        signed: true,
+        expires: tokenExpiryDate,
+        maxAge: tokenMaxAge,
+        httpOnly: true,
+        secure: true,
+      });
       next();
     } else {
-      res.cookie("token", token, { signed: true });
+      res.cookie("token", token, {
+        signed: true,
+        expires: tokenExpiryDate,
+        maxAge: tokenMaxAge,
+        httpOnly: true,
+        secure: true,
+      });
     }
     next();
   } catch (error) {
