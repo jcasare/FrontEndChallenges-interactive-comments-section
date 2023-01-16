@@ -47,6 +47,7 @@ editForm.addEventListener("submit", async (e) => {
     reviewIDDOM.textContent = reviewID;
     reviewTextDOM.textContent = updatedReview;
     ratingSelected.value = updatedRating;
+    editBtn.textContent = "Success!!";
   } catch (error) {
     console.log(error);
     reviewTextDOM.value = tempReview;

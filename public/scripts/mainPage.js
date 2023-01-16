@@ -13,7 +13,7 @@ const showReviews = async () => {
       data: { reviews, userID },
     } = await axios.get("/api/v1/reviews");
     if (reviews.length < 1) {
-      loadingAlert.style.visiblity = "hidden";
+      loadingAlert.style.visiblity = "none";
       reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
@@ -57,6 +57,9 @@ const showReviews = async () => {
   } catch (error) {
     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
+  setTimeout(() => {
+    loadingAlert.style.display = "none";
+  }, 1000);
 };
 const getTimeAgo = (createdAt) => {
   const currentTime = new Date();
@@ -95,14 +98,30 @@ reviewForm.addEventListener("submit", async (e) => {
     );
     createInput.value = "";
     createRating.value = "1";
-    if (review) {
-      showReviews();
-      loadingAlert.style.visiblity = "hidden";
-    }
+    showReviews();
+    loadingAlert.style.display = "block";
   } catch (error) {
     console.log(error);
   }
-  setTimeout(() => {});
+  setTimeout(() => {
+    loadingAlert.style.display = "none";
+  }, 1000);
+});
+
+reviewsDOM.addEventListener("click", async (e) => {
+  const el = e.target;
+  if (el.parentElement.classList.contains("delete-btn")) {
+    loadingAlert.style.visiblity = "visible";
+    const reviewID = el.parentElement.dataset.id;
+
+    try {
+      const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
+      showReviews();
+    } catch (error) {
+      console.log(error);
+    }
+    loadingAlert.style.visiblity = "hidden";
+  }
 });
 
 // const getReviews = async () => {

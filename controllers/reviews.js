@@ -69,7 +69,6 @@ const createReview = async (req, res) => {
 //Update Review
 const updateReview = async (req, res) => {
   const token = req.signedCookies.token;
-  console.log(token);
   if (!token) {
     res.redirect("/");
   }
@@ -103,7 +102,10 @@ const deleteReview = async (req, res) => {
   const reviewID = req.params.id;
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
   const { userID, name } = payload;
-  const review = await Review.findOneAndDelete({ _id: reviewID, user: userID });
+  const review = await Review.findOneAndDelete({
+    _id: reviewID,
+    author: userID,
+  });
   if (!review) {
     throw new NotFoundError(`Review with id ${reviewID} doesn't exist`);
   }

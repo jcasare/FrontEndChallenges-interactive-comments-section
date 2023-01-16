@@ -13,8 +13,8 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
 const cookieParser = require("cookie-parser");
 const staticRouteMiddleware = require("./middleware/static-route");
-const tokenInactivityTime = new Date(Date.now() + 1800000);
-const maxCookieAge = new Date(Date.now() + 2200000);
+const tokenInactivityTime = 1800000;
+const maxCookieAge = 2200000;
 // middlewares;
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
