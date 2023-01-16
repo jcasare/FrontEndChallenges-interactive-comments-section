@@ -1,4 +1,3 @@
-// const access_token = Cookies.get("token");
 const reviewForm = document.querySelector("#review-form");
 const createInput = document.querySelector("#create-input");
 const createRating = document.querySelector("#create-rating");
@@ -36,9 +35,11 @@ const showReviews = async () => {
 
         <div class="review-links">
         ${
-          authorID.toString() === userID.toString()
+          authorID === userID
             ? `<!-- edit review -->
-        <a href ="reviews?id=${reviewID}" class="edit-link">
+        <a href ="/reviews/edit?id=${encodeURIComponent(
+          reviewID
+        )}" class="edit-link">
         <i class="fas fa-edit"></i>
         </a>
 

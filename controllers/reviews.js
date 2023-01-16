@@ -25,6 +25,21 @@ const getReviews = async (req, res) => {
   res.status(StatusCodes.OK).json({ reviews, userID });
 };
 
+const getSingleReview = async (req, res) => {
+  const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
+  const { id: reviewID } = req.params;
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
+  const { userID } = payload;
+  const review = await Review.find({ _id: reviewID });
+  if (!review) {
+    throw NotFoundError(`Review with id ${reviewID} cannot be found`);
+  }
+  res.status(StatusCodes.OK).json({ review });
+};
+
 //create review
 
 const createReview = async (req, res) => {
@@ -54,19 +69,22 @@ const createReview = async (req, res) => {
 //Update Review
 const updateReview = async (req, res) => {
   const token = req.signedCookies.token;
+  console.log(token);
   if (!token) {
     res.redirect("/");
   }
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
   const {
     body: { reviewText, rating },
-    user: { userID, username },
-    params: { reviewID },
+    params: { id: reviewID },
   } = req;
+  const { userID, username } = payload;
+  req.body.author = userID;
   if (reviewText === "" || rating === "") {
     throw new BadRequestError("reviewText and rating fields cannot be empty");
   }
-  const review = await findOneAndReplace(
-    { _id: reviewID, user: userID },
+  const review = await Review.findOneAndReplace(
+    { _id: reviewID, author: userID },
     { ...req.body },
     { new: true, runValidators: true }
   );
@@ -94,4 +112,10 @@ const deleteReview = async (req, res) => {
     .json({ msg: `Job with id ${reviewID} has been deleted` });
 };
 
-module.exports = { getReviews, createReview, updateReview, deleteReview };
+module.exports = {
+  getReviews,
+  getSingleReview,
+  createReview,
+  updateReview,
+  deleteReview,
+};

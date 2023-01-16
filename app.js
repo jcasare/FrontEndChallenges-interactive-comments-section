@@ -4,6 +4,7 @@ const port = 3000 || process.env.PORT;
 const path = require("path");
 require("dotenv").config();
 require("express-async-errors");
+const cors = require("cors");
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
 const reviewRouter = require("./routes/reviews");
@@ -19,14 +20,15 @@ app.use(
     secure: true,
     httpOnly: true,
     secure: true,
-    maxAge: 3600000,
+    maxAge: 360000,
     expires: tokenInactivityTime,
   })
 );
+app.use(cors());
 
-// app.use(staticRouteMiddleware);
+app.use(staticRouteMiddleware);
 app.use(express.static("./public"));
-
+app.use("/reviews", express.static("./public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -38,6 +40,10 @@ app.use("/dashboard", authMiddleware, (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public", "main.html"));
 });
 app.use("/api/v1", reviewRouter);
+
+app.use("/reviews/edit", authMiddleware, (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./public", "edit.html"));
+});
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
