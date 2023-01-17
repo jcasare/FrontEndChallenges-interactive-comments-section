@@ -4,6 +4,21 @@ const createRating = document.querySelector("#create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
 const loadingAlert = document.querySelector(".loading-text");
 const reviewsDOM = document.querySelector(".reviews");
+const decrement = document.querySelector("#decrement");
+const increment = document.querySelector("#increment");
+
+decrement.addEventListener("click", () => {
+  createRating.value--;
+  if (createRating.value < 1) {
+    rating.value = 1;
+  }
+});
+increment.addEventListener("click", () => {
+  createRating.value++;
+  if (createRating.value > 5) {
+    rating.value = 5;
+  }
+});
 
 //Load Reviews from /api/v1/revies
 // const showReviews = async () => {
