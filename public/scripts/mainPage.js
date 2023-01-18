@@ -6,21 +6,29 @@ const loadingAlert = document.querySelector(".loading-text");
 const reviewsDOM = document.querySelector(".reviews");
 const decrement = document.querySelector("#decrement");
 const increment = document.querySelector("#increment");
-
 decrement.addEventListener("click", () => {
-  createRating.value--;
-  if (createRating.value < 1) {
-    rating.value = 1;
+  if (createRating.value > 1) {
+    createRating.value--;
+    increment.disabled = false;
   }
+
+  if (createRating.value === "1") {
+    decrement.disabled = true;
+  }
+  increment.removeAttribute("disabled");
 });
 increment.addEventListener("click", () => {
-  createRating.value++;
-  if (createRating.value > 5) {
-    rating.value = 5;
+  if (createRating.value < 5) {
+    createRating.value++;
+    decrement.disabled = false;
   }
+  if (createRating.value === 5) {
+    increment.disabled = true;
+  }
+  decrement.removeAttribute("disabled");
 });
 
-//Load Reviews from /api/v1/revies
+// Load Reviews from /api/v1/revies
 // const showReviews = async () => {
 //   // loadingAlert.style.visiblity = "visible";
 //   try {
@@ -32,8 +40,8 @@ increment.addEventListener("click", () => {
 //       reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
 //       return;
 //     }
-//     const showAllReviews = reviews
-//       .map((review) => {
+//     reviews
+//       .forEach((review) => {
 //         const {
 //           reviewText,
 //           rating,
@@ -41,35 +49,31 @@ increment.addEventListener("click", () => {
 //           _id: reviewID,
 //           author: { _id: authorID, name: authorName },
 //         } = review;
-
-//         return `<div class="single-review form-control">
-//       <p class="author-name">${authorName}</p>
-//       <p class = "review-time">${getTimeAgo(createdAt)}</p>
-//       <p class = "review-rating">${rating}</p>
-//       <p class = "review-text"> ${reviewText}</p>
+//       const singleReview = `<div class="single-review">
+//         <p class="author-name">${authorName}</p>
+//         <p class="review-time">${getTimeAgo(createdAt)}</p>
+//         <p class="review-rating">${rating}</p>
+//         <p class="review-text"> ${reviewText}</p>
 
 //         <div class="review-links">
-//         ${
-//           authorID === userID
-//             ? `<!-- edit review -->
-//         <a href ="/reviews/edit?id=${encodeURIComponent(
-//           reviewID
-//         )}" class="edit-link">
-//         <i class="fas fa-edit"></i>
-//         </a>
+//           ${
+//             authorID === userID
+//               ? `<!-- edit review -->
+//               <a href ="/reviews/edit?id=${encodeURIComponent(
+//                 reviewID
+//               )}" class="edit-link">
+//               <i class="fas fa-edit"></i>
+//               </a>
 
-//           <!-- delete btn -->
-//           <button type="button" class = "delete-btn" data-id="${reviewID}">
-//           <i class="fas fa-trash"></i>
-//           </button>`
-//             : ""
-//         }
+//               <!-- delete btn -->
+//               <button type="button" class = "delete-btn" data-id="${reviewID}">
+//               <i class="fas fa-trash"></i>
+//               </button>`
+//               : ""
+//           }
 //         </div>
-//       </div`;
-//       })
-//       .join(" ");
-//     reviewsDOM.innerHTML = showAllReviews;
-//   } catch (error) {
+//       </div>`;
+//       reviewsDOM.innerHTML += singleReview  } catch (error) {
 //     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
 //   }
 //   setTimeout(() => {
@@ -77,87 +81,142 @@ increment.addEventListener("click", () => {
 //   }, 1000);
 // };
 
+// const showReviews = async () => {
+//   loadingAlert.style.visiblity = "visible";
+//   try {
+//     const {
+//       data: { reviews, userID },
+//     } = await axios.get("/api/v1/reviews");
+//     if (reviews.length < 1) {
+//       loadingAlert.style.display = "none";
+//       reviewsDOM.innerHTML = `<h5 class="empty-list">No reviews available</h5>`;
+//       return;
+//     }
+//     reviews.forEach((review) => {
+//       const {
+//         _id: reviewID,
+//         reviewText,
+//         rating,
+//         createdAt,
+//         author: { _id: authorID, name: authorName },
+//       } = review;
+
+//       // create the single review element
+//       const singleReview = document.createElement("div");
+//       singleReview.classList.add("single-review");
+
+//       //create author element
+//       const authorNameElement = document.createElement("p");
+//       authorNameElement.classList.add("author-name");
+//       authorNameElement.textContent = authorName;
+//       singleReview.appendChild(authorNameElement);
+
+//       //review time element
+//       const reviewTimeElement = document.createElement("p");
+//       reviewTimeElement.classList.add("review-time");
+//       reviewTimeElement.textContent = getTimeAgo(createdAt);
+//       singleReview.appendChild(reviewTimeElement);
+
+//       //review rating element
+//       const reviewRatingElement = document.createElement("p");
+//       reviewRatingElement.classList.add("review-rating");
+//       reviewRatingElement.textContent = rating;
+//       singleReview.appendChild(reviewRatingElement);
+
+//       //review text element
+//       const reviewTextElement = document.createElement("p");
+//       reviewTextElement.classList.add("review-text");
+//       reviewTextElement.textContent = reviewText;
+//       singleReview.appendChild(reviewTextElement);
+
+//       //review links
+//       const reviewLinks = document.createElement("div");
+//       reviewLinks.classList.add("review-links");
+//       if (userID === authorID) {
+//         //edit link
+//         const editLink = document.createElement("a");
+//         editLink.href = "/reviews/edit?id=" + reviewID;
+//         editLink.classList.add("edit-link");
+//         editLink.innerHTML = '<i class="fas fa-edit"></i>';
+//         reviewLinks.appendChild(editLink);
+
+//         //delete btn
+//         const deleteBtn = document.createElement("button");
+//         deleteBtn.classList.add("delete-btn");
+//         deleteBtn.setAttribute("data-id", reviewID);
+//         deleteBtn.setAttribute("type", "submit");
+//         deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+//         reviewLinks.appendChild(deleteBtn);
+
+//         //button event listener
+
+//         deleteBtn.addEventListener("click", async (e) => {
+//           e.preventDefault();
+//         });
+//       }
+//       singleReview.appendChild(reviewLinks);
+
+//       reviewsDOM.appendChild(singleReview);
+// return;
+//     });
+//   } catch (error) {
+//     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
+//     console.log(error);
+//   }
+//   setTimeout(() => {
+//     loadingAlert.style.display = "none";
+//   }, 1000);
+// };
 const showReviews = async () => {
-  loadingAlert.style.visiblity = "visible";
+  // loadingAlert.style.visibility = "visible";
   try {
     const {
       data: { reviews, userID },
     } = await axios.get("/api/v1/reviews");
+
     if (reviews.length < 1) {
-      loadingAlert.style.display = "none";
-      reviewsDOM.innerHTML = `<h5 class="empty-list">No reviews available</h5>`;
-      console.log("tsw");
+      loadingAlert.style.visibility = "none";
+      reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reviews available</h5>`;
       return;
     }
+
     reviews.forEach((review) => {
       const {
-        _id: reviewID,
         reviewText,
         rating,
         createdAt,
+        _id: reviewID,
         author: { _id: authorID, name: authorName },
       } = review;
 
-      // create the single review element
-      const singleReview = document.createElement("div");
-      singleReview.classList.add("single-review");
+      const singleReview = `<div class="single-review">
+        <p class="author-name">${authorName}</p>
+        <p class="review-time">${getTimeAgo(createdAt)}</p>
+        <p class="review-rating">${rating}</p>
+        <p class="review-text"> ${reviewText}</p>
 
-      //create author element
-      const authorNameElement = document.createElement("p");
-      authorNameElement.classList.add("author-name");
-      authorNameElement.textContent = authorName;
-      singleReview.appendChild(authorNameElement);
+        <div class="review-links">
+          ${
+            authorID === userID
+              ? `<!-- edit review -->
+              <a href ="/reviews/edit?id=${encodeURIComponent(
+                reviewID
+              )}" class="edit-link">
+              <i class="fas fa-edit"></i>
+              </a>
 
-      //review time element
-      const reviewTimeElement = document.createElement("p");
-      reviewTimeElement.classList.add("review-time");
-      reviewTimeElement.textContent = getTimeAgo(createdAt);
-      singleReview.appendChild(reviewTimeElement);
-
-      //review rating element
-      const reviewRatingElement = document.createElement("p");
-      reviewRatingElement.classList.add("review-rating");
-      reviewRatingElement.textContent = rating;
-      singleReview.appendChild(reviewRatingElement);
-
-      //review text element
-      const reviewTextElement = document.createElement("p");
-      reviewTextElement.classList.add("review-text");
-      reviewTextElement.textContent = reviewText;
-      singleReview.appendChild(reviewTextElement);
-
-      //review links
-      const reviewLinks = document.createElement("div");
-      reviewLinks.classList.add("review-links");
-      if (userID === authorID) {
-        //edit link
-        const editLink = document.createElement("a");
-        editLink.href = "/reviews/edit?id=" + reviewID;
-        editLink.classList.add("edit-link");
-        editLink.innerHTML = '<i class="fas fa-edit"></i>';
-        reviewLinks.appendChild(editLink);
-
-        //delete btn
-        const deleteBtn = document.createElement("button");
-        deleteBtn.classList.add("delete-btn");
-        deleteBtn.setAttribute("data-id", reviewID);
-        deleteBtn.setAttribute("type", "submit");
-        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-        reviewLinks.appendChild(deleteBtn);
-
-        //button event listener
-
-        deleteBtn.addEventListener("click", async (e) => {
-          e.preventDefault();
-        });
-      }
-      singleReview.appendChild(reviewLinks);
-
-      reviewsDOM.appendChild(singleReview);
+              <!-- delete btn -->
+              <button type="button" class = "delete-btn" data-id="${reviewID}">
+              <i class="fas fa-trash"></i>
+              </button>`
+              : ""
+          }
+        </div>
+      </div>`;
+      reviewsDOM.innerHTML += singleReview;
     });
   } catch (error) {
     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
-    console.log(error);
   }
   setTimeout(() => {
     loadingAlert.style.display = "none";
@@ -199,9 +258,13 @@ reviewForm.addEventListener("submit", async (e) => {
       { reviewText, rating },
       { withCredentials: true }
     );
+    if (review) {
+      console.log(review);
+      showReviews();
+    }
     createInput.value = "";
     createRating.value = "1";
-    showReviews();
+
     loadingAlert.style.display = "block";
   } catch (error) {
     console.log(error);
