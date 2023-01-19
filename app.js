@@ -29,7 +29,7 @@ app.use(cors());
 
 app.use(staticRouteMiddleware);
 app.use(express.static("./public"));
-app.use("/reviews", express.static("./public"));
+app.use("/dashboard/review", express.static("./public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -37,14 +37,14 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/v1/auth0", authRouter);
 
+app.use("/dashboard/review/edit", authMiddleware, (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./public", "edit.html"));
+});
+
 app.use("/dashboard", authMiddleware, (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public", "main.html"));
 });
 app.use("/api/v1", reviewRouter);
-
-app.use("/reviews/edit", authMiddleware, (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./public", "edit.html"));
-});
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
