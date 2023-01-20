@@ -41,21 +41,23 @@ main{
   
 border-radius: 10px;
 background-color: var(--White);
-height:200px;
+height:150px;
 padding: 15px;
 }
 .review-post{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+ 
 }
 #review-form{
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  
 }
 #create-review textarea{
-  height:100px;
+  height:120px;
   resize: none;
+  border-radius: 10px;
+  padding: 15px;
 }
 .form-control{
   margin: 2rem auto;
