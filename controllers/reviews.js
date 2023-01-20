@@ -17,12 +17,12 @@ const getReviews = async (req, res) => {
     res.redirect("/");
   }
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  const { userID } = payload;
+  const { userID, name } = payload;
   const reviews = await Review.find({})
     .sort({ createdAt: -1 })
     .populate({ path: "author", select: "name _id" })
     .exec();
-  res.status(StatusCodes.OK).json({ reviews, userID });
+  res.status(StatusCodes.OK).json({ reviews, userID, username: name });
 };
 
 const getSingleReview = async (req, res) => {
@@ -32,7 +32,7 @@ const getSingleReview = async (req, res) => {
   }
   const { id: reviewID } = req.params;
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  const { userID } = payload;
+  const { userID, name } = payload;
   const review = await Review.find({ _id: reviewID });
   if (!review) {
     throw NotFoundError(`Review with id ${reviewID} cannot be found`);

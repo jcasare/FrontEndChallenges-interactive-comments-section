@@ -6,6 +6,7 @@ const loadingAlert = document.querySelector(".loading-text");
 const reviewsDOM = document.querySelector(".reviews");
 const decrement = document.querySelector("#decrement");
 const increment = document.querySelector("#increment");
+const usernameDOM = document.querySelector(".username");
 
 // Load Reviews from /api/v1/revies
 const showReviews = async () => {
@@ -13,13 +14,15 @@ const showReviews = async () => {
   loadingAlert.style.visiblity = "visible";
   try {
     const {
-      data: { reviews, userID },
+      data: { reviews, userID, username },
     } = await axios.get("/api/v1/reviews");
     if (reviews.length < 1) {
       loadingAlert.style.visiblity = "none";
       reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
+    usernameDOM.textContent = username;
+    console.log(username);
     reviews.forEach((review) => {
       const {
         reviewText,
@@ -150,67 +153,6 @@ const showReviews = async () => {
 //   setTimeout(() => {
 //     loadingAlert.style.display = "none";
 //   }, 500);
-// };
-// const showReviews = async () => {
-//   // loadingAlert.style.visibility = "visible";
-//   try {
-//     const {
-//       data: { reviews, userID },
-//     } = await axios.get("/api/v1/reviews");
-
-//     if (reviews.length < 1) {
-//       loadingAlert.style.visibility = "none";
-//       reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reviews available</h5>`;
-//       return;
-//     }
-
-//     // reviews.forEach((review) => {
-//     //   const {
-//     //     reviewText,
-//     //     rating,
-//     //     createdAt,
-//     //     _id: reviewID,
-//     //     author: { _id: authorID, name: authorName },
-//     //   } = review;
-//     const allReviews = reviews.map((review)=>{
-//       const {reviewText, rating, createdAt, author:{_id:authorID, name:authorName}}= review;
-//       return `<div class="single-review>
-
-//       </div>"`
-//     })
-
-//       const singleReview = `<div class="single-review">
-//         <p class="author-name">${authorName}</p>
-//         <p class="review-time">${getTimeAgo(createdAt)}</p>
-//         <p class="review-rating">${rating}</p>
-//         <p class="review-text"> ${reviewText}</p>
-
-//         <div class="review-links">
-//           ${
-//             authorID === userID
-//               ? `<!-- edit review -->
-//               <a href ="/reviews/edit?id=${encodeURIComponent(
-//                 reviewID
-//               )}" class="edit-link">
-//               <i class="fas fa-edit"></i>
-//               </a>
-
-//               <!-- delete btn -->
-//               <button type="button" class = "delete-btn" data-id="${reviewID}">
-//               <i class="fas fa-trash"></i>
-//               </button>`
-//               : ""
-//           }
-//         </div>
-//       </div>`;
-//       reviewsDOM.innerHTML += singleReview;
-//     });
-//   } catch (error) {
-//     reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
-//   }
-//   setTimeout(() => {
-//     loadingAlert.style.display = "none";
-//   }, 1000);
 // };
 
 const getTimeAgo = (createdAt) => {

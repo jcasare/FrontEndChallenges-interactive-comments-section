@@ -13,18 +13,22 @@
         <!--Create Review-->
         <div id="create-review" class="review-post">
             <form id="review-form">
-                <h2>Reviews</h2>
-                <textarea placeholder="Leave your review here....." id="create-input"></textarea>
-                <label for="create-rating">Rating:</label>
+                <div>
+                <label class="username"></label>
+                </div>
+                <br>
+                <div>
+                <textarea placeholder="Leave your review here....." id="create-input"></textarea>  
+                </div>
                 <div class="rating">
                     <div class="rating-container">
                             <i class="fas fa-minus" id="decrement" ></i>
-                            <input type="text" id="create-rating" value="3">
+                            <input type="text" id="create-rating" value="3" readonly disabled>
                             <i class="fas fa-plus" id="increment" ></i>
                     </div>
                 </div>
                
-                <button type="submit">Send Review</button>
+                <button type="submit">SEND</button>
             </form>
         </div>
         <!--End Create Review-->
