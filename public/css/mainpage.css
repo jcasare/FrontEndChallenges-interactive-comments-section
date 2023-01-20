@@ -49,6 +49,10 @@ padding: 15px;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
 }
+#review-form{
+  display: flex;
+  flex-direction: row;
+}
 #create-review textarea{
   height:100px;
   resize: none;
