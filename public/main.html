@@ -13,19 +13,25 @@
         <!--Create Review-->
         <div id="create-review" class="review-post">
             <form id="review-form">
-                <div>
-                <label class="username"></label>
-                </div>
-                <textarea placeholder="Leave your review here....." id="create-input"></textarea>                
                 <div class="rating">
                     <div class="rating-container">
-                            <i class="fas fa-minus" id="decrement" ></i>
-                            <input type="text" id="create-rating" value="3" readonly disabled>
-                            <i class="fas fa-plus" id="increment" ></i>
+                        <i class="fas fa-minus" id="decrement"></i>
+                        <input type="text" id="create-rating" value="3" readonly disabled>
+                        <i class="fas fa-plus" id="increment"></i>
                     </div>
                 </div>
+                <div>
+                    <div class="review-input-container">
+                        <textarea placeholder="Leave your review here....." id="create-input"></textarea>
+                    </div>
+                <!-- <label class="username"></label> -->
+                </div>
+                        <div class="review-form-submit">
+                            <button type="submit">SEND</button>
+                        </div>        
+                
                
-                <button type="submit">SEND</button>
+                
             </form>
         </div>
         <!--End Create Review-->
@@ -39,7 +45,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
         integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./scripts/avatar.js"></script>
     <script src="./scripts/mainPage.js"></script>
+    
  
 </body>
 </html>

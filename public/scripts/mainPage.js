@@ -7,8 +7,8 @@ const reviewsDOM = document.querySelector(".reviews");
 const decrement = document.querySelector("#decrement");
 const increment = document.querySelector("#increment");
 const usernameDOM = document.querySelector(".username");
+// Load Reviews from /api/v1/reviews
 
-// Load Reviews from /api/v1/revies
 const showReviews = async () => {
   reviewsDOM.innerHTML = "";
   loadingAlert.style.visiblity = "visible";
