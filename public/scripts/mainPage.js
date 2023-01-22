@@ -37,30 +37,47 @@ const showReviews = async () => {
       const allReviews = document.createElement("div");
       allReviews.classList.add("allReviews");
       allReviews.innerHTML = `<div class="single-review">
+       <div class="rating-container">
+                        <i class ="fas fa-minus" id="decrement readonly"></i>
+                        <input type="text" id="create-rating" value=${rating} readonly disabled>
+                        <i class="fas fa-plus" id="increment readonly"></i>
+                    </div>
       ${
         authorID === userID
-          ? `<p class = "author-name">you</p>`
-          : `<p class="author-name">${authorName}</p>`
-      }
-        <p class="review-time">${getTimeAgo(createdAt)}</p>
-        <p class="review-rating">${rating}</p>
+          ? `<div class = "author-info">
+            <p class = "author-name">${authorName}</p>
+            <p class = "author-status">you</p>
+            <p class="review-time">${getTimeAgo(createdAt)}</p>
+          </div>
+          `
+          : `
+          <div class = "author-info">
+          <p class="author-name">${authorName}</p>
+          </div>
+          `
+      }<div class = "review-container>
         <p class="review-text"> ${reviewText}</p>
+      </div>
+       
 
-         <div class="review-links">
+         
         ${
           authorID === userID
             ? `<!-- edit review -->
-        <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
-        <i class="fas fa-edit"></i>
-        </a>
+          <div class="review-links">
+            <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
+            <i class="fas fa-edit"></i>
+            </a>
 
-          <!-- delete btn -->
-          <button type="button" class = "delete-btn" data-id="${reviewID}">
-          <i class="fas fa-trash"></i>
-          </button>`
+            <!-- delete btn -->
+            <button type="button" class = "delete-btn" data-id="${reviewID}">
+            <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          `
             : ""
         }
-        </div>
+        
       `;
 
       reviewsDOM.appendChild(allReviews);

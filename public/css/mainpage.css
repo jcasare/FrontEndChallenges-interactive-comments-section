@@ -64,7 +64,7 @@ padding: 15px;
 }
 .review-form-submit{
   position: relative;
-  height: 100%
+  height: 100%;
 }
 
 #create-review textarea{
@@ -125,6 +125,10 @@ padding: 15px;
   background-color: var(--Very-light-gray);
   margin: 10px auto; 
 }
+.allReviews{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .reviews{
   margin: 10px auto;
@@ -135,14 +139,14 @@ padding: 15px;
 .single-review{
   background-color: var(--White);
   border-radius: 10px;
-  margin: 10px auto;
-  width: 100%;
-  
+  margin: 5px auto;
+  width: 100%; 
   padding: 10px;
   overflow: hidden;
-}
-.allReviews{
-  /* background-color: red; */
   display: flex;
-
+  flex-wrap: wrap;
 }
+.single-review .rating-container{
+  flex:10px;
+}
+
