@@ -20,7 +20,6 @@
   font-size: 1rem; 
 }
 body{
-
 height: 100vh;
 width:100vw;  
 color:#000;
@@ -28,12 +27,14 @@ display: flex;
 justify-content: center;
 background-color: var(--Very-light-gray)
 }
+
 main{
   width:60%;
   margin: 3rem auto; 
   border-radius: 10px;
   padding: 15px;
 }
+
 #create-review{  
 border-radius: 10px;
 background-color: var(--White);
@@ -44,10 +45,9 @@ padding: 15px;
 #review-form{
   display: grid;
   grid-template-columns: 10% 78% 12%;
-  grid-template-rows: 1fr;
-  
-  
+  grid-template-rows: 1fr;  
 }
+
 #review-form button{
   background-color: var(--Moderate-blue);
   border-radius: 10px;
@@ -57,13 +57,16 @@ padding: 15px;
   width: 100%;
   height: 2.3rem;
 }
+
 #review-form button:hover{
   background-color: var(--Light-grayish-blue);
   cursor: pointer;
 }
 .review-form-submit{
-  height: auto;
+  position: relative;
+  height: 100%
 }
+
 #create-review textarea{
   height:90px;
   width: 95%;
@@ -74,10 +77,12 @@ padding: 15px;
   overflow: hidden;
   outline: none;
 }
+
 #create-review textarea:focus{
   border: 1px solid var(--Grayish-Blue);
   outline: none;
 }
+
 .rating{
   width:50%;
 }
@@ -85,6 +90,7 @@ padding: 15px;
   display: flex;
   flex-direction: column-reverse;
 }
+
 .rating-container input{
   width: 100%;
   text-align: center;
@@ -93,6 +99,7 @@ padding: 15px;
   color:var(--Moderate-blue);
   font-weight: 700;
 }
+
 .rating-container i{
   text-align: center;
   background-color: var(--Very-light-gray);
@@ -100,29 +107,42 @@ padding: 15px;
   padding: 5px;
   cursor: pointer;
 }
+
 .rating-container i:hover{
   color: var(--Moderate-blue);
 }
+
 #decrement{
    border-radius: 0 0 10px 10px;
 }
+
 #increment{
   border-radius: 10px 10px 0 0;
 }
+
 .reviews-container{
   width: 100%;
   background-color: var(--Very-light-gray);
-  margin: 10px auto;
-  
+  margin: 10px auto; 
 }
+
 .reviews{
   margin: 10px auto;
   width: 100%;
   border-radius: 10px;
 }
+
 .single-review{
   background-color: var(--White);
   border-radius: 10px;
   margin: 10px auto;
   width: 100%;
+  
+  padding: 10px;
+  overflow: hidden;
+}
+.allReviews{
+  /* background-color: red; */
+  display: flex;
+
 }
