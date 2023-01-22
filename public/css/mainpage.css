@@ -43,9 +43,10 @@ padding: 15px;
 
 #review-form{
   display: grid;
-  grid-template-columns: 10% 80% 10%;
+  grid-template-columns: 10% 78% 12%;
   grid-template-rows: 1fr;
-  margin: auto 20px;
+  
+  
 }
 #review-form button{
   background-color: var(--Moderate-blue);
@@ -60,9 +61,12 @@ padding: 15px;
   background-color: var(--Light-grayish-blue);
   cursor: pointer;
 }
+.review-form-submit{
+  height: auto;
+}
 #create-review textarea{
   height:90px;
-  width: 90%;
+  width: 95%;
   resize: none;
   border-radius: 10px;
   padding: 15px; 
@@ -75,7 +79,7 @@ padding: 15px;
   outline: none;
 }
 .rating{
-  width:30px;
+  width:50%;
 }
 .rating-container{
   display: flex;
@@ -103,12 +107,22 @@ padding: 15px;
    border-radius: 0 0 10px 10px;
 }
 #increment{
-  border-radius: 10px 10px 0 0 ;
+  border-radius: 10px 10px 0 0;
+}
+.reviews-container{
+  width: 100%;
+  background-color: var(--Very-light-gray);
+  margin: 10px auto;
+  
 }
 .reviews{
-  background-color: green;
+  margin: 10px auto;
+  width: 100%;
+  border-radius: 10px;
 }
 .single-review{
-  background-color: red;
-  margin: 1rem auto;
+  background-color: var(--White);
+  border-radius: 10px;
+  margin: 10px auto;
+  width: 100%;
 }
