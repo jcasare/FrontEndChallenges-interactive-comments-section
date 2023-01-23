@@ -48,36 +48,29 @@ const showReviews = async () => {
             <p class = "author-name">${authorName}</p>
             <p class = "author-status">you</p>
             <p class="review-time">${getTimeAgo(createdAt)}</p>
+            <div class="review-links">
+            <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
+            <i class="fas fa-edit">Edit</i>
+            </a>
+
+            <!-- delete btn -->
+            <button type="button" class = "delete-btn" data-id="${reviewID}">
+            <i class="fas fa-trash">Delete</i>
+            </button>
+          </div>
+
           </div>
           `
           : `
           <div class = "author-info">
           <p class="author-name">${authorName}</p>
+          <p class = "review-time">${getTimeAgo(createdAt)}</p>
           </div>
           `
       }<div class = "review-container>
         <p class="review-text"> ${reviewText}</p>
       </div>
-       
 
-         
-        ${
-          authorID === userID
-            ? `<!-- edit review -->
-          <div class="review-links">
-            <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
-            <i class="fas fa-edit"></i>
-            </a>
-
-            <!-- delete btn -->
-            <button type="button" class = "delete-btn" data-id="${reviewID}">
-            <i class="fas fa-trash"></i>
-            </button>
-          </div>
-          `
-            : ""
-        }
-        
       `;
 
       reviewsDOM.appendChild(allReviews);
