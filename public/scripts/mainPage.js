@@ -37,6 +37,7 @@ const showReviews = async () => {
       const allReviews = document.createElement("div");
       allReviews.classList.add("allReviews");
       allReviews.innerHTML = `<div class="single-review">
+      <div class = "top-side">
        <div class="rating-container">
                         <i class ="fas fa-minus" id="decrement readonly"></i>
                         <input type="text" id="create-rating" value=${rating} readonly disabled>
@@ -44,7 +45,8 @@ const showReviews = async () => {
                     </div>
       ${
         authorID === userID
-          ? `<div class = "author-info">
+          ? `
+          <div class = "author-info">
             <p class = "author-name">${authorName}</p>
             <p class = "author-status">you</p>
             <p class="review-time">${getTimeAgo(createdAt)}</p>
@@ -60,15 +62,22 @@ const showReviews = async () => {
           </div>
 
           </div>
+          </div>
+
           `
           : `
           <div class = "author-info">
           <p class="author-name">${authorName}</p>
           <p class = "review-time">${getTimeAgo(createdAt)}</p>
           </div>
+          </div>
+
           `
-      }<div class = "review-container>
+      }
+      <div class="bottom-side"
+      <div class = "review-container>
         <p class="review-text"> ${reviewText}</p>
+      </div>
       </div>
 
       `;
