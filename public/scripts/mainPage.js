@@ -3,14 +3,15 @@ const createInput = document.querySelector("#create-input");
 const createRating = document.querySelector("#create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
 const loadingAlert = document.querySelector(".loading-text");
-const reviewsDOM = document.querySelector(".reviews");
+const overallContainer = document.querySelector(".overall-container");
 const decrement = document.querySelector("#decrement");
 const increment = document.querySelector("#increment");
 const usernameDOM = document.querySelector(".username");
+
 // Load Reviews from /api/v1/reviews
 
 const showReviews = async () => {
-  reviewsDOM.innerHTML = "";
+  overallContainer.innerHTML = "";
   loadingAlert.style.visiblity = "visible";
   try {
     const {
@@ -18,7 +19,7 @@ const showReviews = async () => {
     } = await axios.get("/api/v1/reviews");
     if (reviews.length < 1) {
       loadingAlert.style.visiblity = "none";
-      reviewsDOM.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
+      overallContainer.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
     usernameDOM.textContent = username;
@@ -35,62 +36,71 @@ const showReviews = async () => {
         usernameDOM.textContent = "you";
       }
       const allReviews = document.createElement("div");
-      allReviews.classList.add("allReviews");
+      allReviews.classList.add("wrapper");
       allReviews.innerHTML = `
       <div class="single-review">
-        <div class = "top-side">
-          <div class="rating-container">
-            <i class ="fas fa-minus" id="decrement" readonly></i>
-            <input type="text" id="create-rating" value=${rating} readonly disabled>
-            <i class="fas fa-plus" id="increment" readonly></i>
-          </div>
-          ${
-            authorID === userID
-              ? `
-          <div class = "author-info">   
-            <p class = "author-name">${authorName}</p>
-            <p class = "author-status">you</p>
-            <p class="review-time">${getTimeAgo(createdAt)}</p>
+          <div class="rating post">
+            <div class="rating-container">
+              <img src="./images/icon-plus.svg" class="plus-icon">
+              <input type="text" id="create-rating" value=${rating} readonly disabled>
+              <img src="./images/icon-minus.svg" class="minus-icon">
             </div>
-            <div class="review-links">
-            <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
-            <i class="fas fa-edit">Edit</i>
-            </a>
+          <div class="content-container">
+            <div class="author-container">
+            ${
+              authorID === userID
+                ? `
+              <p class = "author-name">${authorName}</p>
+              <p class = "author-status">you</p>
+              <p class="review-time">${getTimeAgo(createdAt)}</p>
+            </div>
+            
+            <div class ="text-container">
+            ${reviewText}
+            </div>
+
+            <div class="action-links">
+              <div class ="edit-container">
+                <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
+                  <img src="./images/icon-edit.svg">
+                </a>
+              </div>
 
             <!-- delete btn -->
-            <button type="button" class = "delete-btn" data-id="${reviewID}">
-            <i class="fas fa-trash">Delete</i>
-            </button>
-          </div>
-
-       
-        </div>
-
+              <div class = "delete-container">
+               <button type= "button" class ="delete-btn" data-id="${reviewID}">
+                <img src = "./images/icon-delete.svg">Delete
+               </button>
+              </div>
+            </div>       
           `
-              : `
-          <div class = "author-info">
+                : `
+          
           <p class="author-name">${authorName}</p>
           <p class="author-status disabled"></p>
           <p class = "review-time">${getTimeAgo(createdAt)}</p>
           </div>
-          </div>
 
+            <div class = "text-container">
+            ${reviewText}
+            </div>
+
+          <div class="action-links">
+            <div class="reply-container">
+              <img src"./images/icon-reply.svg">Reply
+            </div>
+      
           `
-          }
-      <div class="bottom-side">
-        <div class = "review-container">
-          <p class="review-text"> ${reviewText}
-          </p>
-        </div>
+            }
       </div>
       </div>
       `;
 
-      reviewsDOM.appendChild(allReviews);
+      overallContainer.appendChild(allReviews);
     });
   } catch (error) {
     console.log(error);
-    reviewsDOM.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
+    overallContainer.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
   setTimeout(() => {
     loadingAlert.style.display = "none";
@@ -182,11 +192,12 @@ reviewForm.addEventListener("submit", async (e) => {
   }, 1000);
 });
 
-reviewsDOM.addEventListener("click", async (e) => {
+overallContainer.addEventListener("click", async (e) => {
   const el = e.target;
-  if (el.parentElement.classList.contains("delete-btn")) {
+
+  if (el.parentElement.classList.contains("delete-container")) {
     loadingAlert.style.visiblity = "visible";
-    const reviewID = el.parentElement.dataset.id;
+    const reviewID = el.dataset.id;
 
     try {
       const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
