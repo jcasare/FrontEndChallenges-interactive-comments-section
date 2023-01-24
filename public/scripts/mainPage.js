@@ -39,17 +39,18 @@ const showReviews = async () => {
       allReviews.innerHTML = `<div class="single-review">
       <div class = "top-side">
        <div class="rating-container">
-                        <i class ="fas fa-minus" id="decrement readonly"></i>
+                        <i class ="fas fa-minus" id="decrement" readonly></i>
                         <input type="text" id="create-rating" value=${rating} readonly disabled>
-                        <i class="fas fa-plus" id="increment readonly"></i>
+                        <i class="fas fa-plus" id="increment" readonly></i>
                     </div>
       ${
         authorID === userID
           ? `
-          <div class = "author-info">
+          <div class = "author-info">   
             <p class = "author-name">${authorName}</p>
             <p class = "author-status">you</p>
             <p class="review-time">${getTimeAgo(createdAt)}</p>
+            </div>
             <div class="review-links">
             <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
             <i class="fas fa-edit">Edit</i>
@@ -61,13 +62,14 @@ const showReviews = async () => {
             </button>
           </div>
 
-          </div>
+          
           </div>
 
           `
           : `
           <div class = "author-info">
           <p class="author-name">${authorName}</p>
+          <p class="author-status disabled"></p>
           <p class = "review-time">${getTimeAgo(createdAt)}</p>
           </div>
           </div>
