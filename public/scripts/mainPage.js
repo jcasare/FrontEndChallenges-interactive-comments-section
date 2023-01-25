@@ -74,7 +74,7 @@ const showReviews = async () => {
                 : `
           
           <p class="author-name">${authorName}</p>
-          <p class="author-status disabled"></p>
+          
           <p class = "review-time">${getTimeAgo(createdAt)}</p>
           </div>
 

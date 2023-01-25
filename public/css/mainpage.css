@@ -81,12 +81,28 @@ main{
 
 .content-container{
   display: grid;
-  gap: 10px;
+  gap: 5px;
 }
 .content-container .author-container{
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.content-container .author-container .author-name{
+font-weight: 700;
+}
+.content-container .author-container .author-status{
+  color: var(--White);
+  font-weight: 500;
+  background-color: var(--Moderate-blue);
+  border-radius: 5px;
+  padding: 2px 7px;
+  display: flex;
+  align-content: center;
+}
+.content-container .author-container .review-time{
+  color: var(--Grayish-Blue);
 }
 .content-container .text-container{
   height: 100%;
@@ -128,7 +144,20 @@ main{
   align-items: center;
   gap: 3px;
   color: var(--Moderate-blue);
+  font-weight: 500;
 }
+
 .content-container .action-links a:hover{
+  opacity: 0.5;
+}
+.content-container .action-links .reply-container{
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--Moderate-blue);
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.content-container .action-links .reply-container:hover{
   opacity: 0.5;
 }
