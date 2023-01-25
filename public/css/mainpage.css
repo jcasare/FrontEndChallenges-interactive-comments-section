@@ -24,11 +24,17 @@ img{
   max-width: 100%;
 }
 
+body{
+ background-color: var(--Very-light-gray);
+}
+
 main{
   min-height: 100vh;
-  background-color: var(--Very-light-gray);
   display: grid;
   justify-content: center;
+  grid-template-rows: 30% 70%;
+  align-content: center;
+  max-height: 100vh;
 }
 
 .overall-container{
@@ -36,10 +42,52 @@ main{
   display: grid;
   align-items: start;
   grid-auto-rows: min-content;
-  gap: 20px;
+  gap: 10px;
   margin: 1.5rem auto 3rem auto;
+  justify-content: center;
 }
-
+#create-review{
+  background-color: var(--White);
+  border-radius: 10px;
+  align-self: end;
+}
+#create-review #review-form{
+display: grid;
+grid-template-columns: auto 1fr auto;
+gap: 10px;
+align-items: center;
+padding: 15px;
+grid-template-rows: auto;
+max-width: 600px;
+}
+#create-review #review-form .text-content{
+  width: 100%;
+  height: 100%;
+  
+}
+#create-review #review-form .text-content textarea{
+  width: 100%;
+  resize: none;
+  border-radius: 10px;
+  padding: 15px;
+  overflow: hidden;
+  height: 100%;
+}
+#create-review #review-form .text-content textarea:focus{
+  outline: none;
+}
+#create-review #review-form .review-submit button{
+  background-color: var(--Moderate-blue);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  color: var(--White);
+  cursor: pointer;
+  font-weight: 500;
+}
+#create-review #review-form .review-submit button:hover{
+  opacity: 0.5;
+}
 .wrapper{
   display: grid;
   gap: 10px;
@@ -121,7 +169,7 @@ font-weight: 700;
   align-items: center;
   
 }
-.content-container .action-links button{
+.content-container .action-links .delete-btn{
   border: none;
   cursor: pointer;
   background-color: var(--White);
@@ -150,14 +198,17 @@ font-weight: 700;
 .content-container .action-links a:hover{
   opacity: 0.5;
 }
-.content-container .action-links .reply-container{
+.content-container .action-links .reply-container .reply-btn{
+  border: none;
   cursor: pointer;
-  font-weight: 500;
+  background-color: var(--White);
   color: var(--Moderate-blue);
   display: flex;
   gap: 3px;
+  justify-content: center;
   align-items: center;
+  font-weight: 500;
 }
-.content-container .action-links .reply-container:hover{
+.content-container .action-links .reply-container .reply-btn:hover{
   opacity: 0.5;
 }

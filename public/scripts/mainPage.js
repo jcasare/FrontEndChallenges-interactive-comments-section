@@ -84,7 +84,9 @@ const showReviews = async () => {
 
           <div class="action-links">
             <div class="reply-container">
-              <img src="./images/icon-reply.svg"> Reply
+              <button type= "button" class ="reply-btn" data-id="${reviewID}">
+                <img src = "./images/icon-reply.svg">Reply
+               </button> 
             </div>
       
           `
