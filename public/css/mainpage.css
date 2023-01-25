@@ -11,9 +11,9 @@
   --Very-light-gray: hsl(228, 33%, 97%);
   --White: hsl(0, 0%, 100%);
 }
-html{
+/* html{
   height: 100vh;
-}
+} */
 
 *{
   margin: 0;
@@ -27,27 +27,24 @@ img{
   max-width: 100%;
 }
 
-body{
- background-color: var(--Very-light-gray);
-}
 
 main{
-  min-height: 100vh;
   display: grid;
   justify-content: center;
-  grid-template-rows: 30% 70%;
-  align-content: center;
-  max-height: 100vh;
-  
+  background-color: var(--Very-light-gray);
+  min-height: 100vh;
+}
+.overall-wrapper{
+  display: grid;
+  gap: 10px;
+  margin: 3rem auto;
+  align-items: start;
 }
 
 .overall-container{
-  max-width: 720px;
   display: grid;
-  align-items: start;
-  grid-auto-rows: min-content;
   gap: 10px;
-  margin: 1.5rem auto 3rem auto;
+  
   justify-content: center;
 }
 #create-review{
@@ -92,11 +89,7 @@ max-width: 600px;
 #create-review #review-form .review-submit button:hover{
   opacity: 0.5;
 }
-.wrapper:last-child{
-  display: grid;
-  gap: 10px;
-  margin-bottom: 9rem;
-}
+
 
 .single-review{
   background-color: var(--White);
@@ -141,6 +134,8 @@ max-width: 600px;
   display: flex;
   align-items: center;
   gap: 1rem;
+  position: relative;
+  top: -15px;
 }
 
 .content-container .author-container .author-name{
@@ -157,6 +152,8 @@ font-weight: 700;
 }
 .content-container .author-container .review-time{
   color: var(--Grayish-Blue);
+  align-content: end;
+  display: flex;
 }
 .content-container .text-container{
   height: 100%;
