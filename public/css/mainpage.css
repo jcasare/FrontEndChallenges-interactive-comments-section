@@ -11,6 +11,9 @@
   --Very-light-gray: hsl(228, 33%, 97%);
   --White: hsl(0, 0%, 100%);
 }
+html{
+  height: 100vh;
+}
 
 *{
   margin: 0;
@@ -35,6 +38,7 @@ main{
   grid-template-rows: 30% 70%;
   align-content: center;
   max-height: 100vh;
+  
 }
 
 .overall-container{
@@ -88,9 +92,10 @@ max-width: 600px;
 #create-review #review-form .review-submit button:hover{
   opacity: 0.5;
 }
-.wrapper{
+.wrapper:last-child{
   display: grid;
   gap: 10px;
+  margin-bottom: 9rem;
 }
 
 .single-review{
@@ -103,6 +108,7 @@ max-width: 600px;
   align-items: center;
   gap: 1rem;
   width: 600px;
+  margin: auto;
 }
 
 .rating-container{
