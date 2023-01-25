@@ -6,23 +6,22 @@ const loadingAlert = document.querySelector(".loading-text");
 const overallContainer = document.querySelector(".overall-container");
 const decrement = document.querySelector("#decrement");
 const increment = document.querySelector("#increment");
-const usernameDOM = document.querySelector(".username");
 
 // Load Reviews from /api/v1/reviews
 
 const showReviews = async () => {
   overallContainer.innerHTML = "";
-  loadingAlert.style.visiblity = "visible";
+  // loadingAlert.style.visiblity = "visible";
   try {
     const {
       data: { reviews, userID, username },
     } = await axios.get("/api/v1/reviews");
     if (reviews.length < 1) {
-      loadingAlert.style.visiblity = "none";
+      // loadingAlert.style.visiblity = "none";
       overallContainer.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
-    usernameDOM.textContent = username;
+
     console.log(username);
     reviews.forEach((review) => {
       const {
@@ -32,20 +31,16 @@ const showReviews = async () => {
         _id: reviewID,
         author: { _id: authorID, name: authorName },
       } = review;
-      if (authorID === userID) {
-        usernameDOM.textContent = "you";
-      }
       const allReviews = document.createElement("div");
       allReviews.classList.add("wrapper");
       allReviews.innerHTML = `
       <div class="single-review">
-          <div class="rating post">
-            <div class="rating-container">
-              <img src="./images/icon-plus.svg" class="plus-icon">
-              <input type="text" id="create-rating" value=${rating} readonly disabled>
-              <img src="./images/icon-minus.svg" class="minus-icon">
-            </div>
-          <div class="content-container">
+        <div class="rating-container">
+            <img src="./images/icon-plus.svg" class="plus-icon">
+            <div id="create-rating">${rating}</div>
+            <img src="./images/icon-minus.svg" class="minus-icon">
+        </div>
+        <div class="content-container">
             <div class="author-container">
             ${
               authorID === userID
@@ -62,7 +57,7 @@ const showReviews = async () => {
             <div class="action-links">
               <div class ="edit-container">
                 <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
-                  <img src="./images/icon-edit.svg">
+                  <img src="./images/icon-edit.svg">Edit
                 </a>
               </div>
 
@@ -93,7 +88,7 @@ const showReviews = async () => {
           `
             }
       </div>
-      </div>
+      
       `;
 
       overallContainer.appendChild(allReviews);
@@ -103,7 +98,7 @@ const showReviews = async () => {
     overallContainer.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
   setTimeout(() => {
-    loadingAlert.style.display = "none";
+    // loadingAlert.style.display = "none";
   }, 500);
 };
 
@@ -143,22 +138,22 @@ const getTimeAgo = (createdAt) => {
 };
 //plus-minus rating button
 decrement.addEventListener("click", () => {
-  if (createRating.value > 1) {
-    createRating.value--;
+  if (createRating.textContent > 1) {
+    createRating.textContent--;
     increment.disabled = false;
   }
 
-  if (createRating.value === "1") {
+  if (createRating.textContent === "1") {
     decrement.disabled = true;
   }
   increment.removeAttribute("disabled");
 });
 increment.addEventListener("click", () => {
-  if (createRating.value < 5) {
-    createRating.value++;
+  if (createRating.textContent < 5) {
+    createRating.textContent++;
     decrement.disabled = false;
   }
-  if (createRating.value === 5) {
+  if (createRating.textContent === 5) {
     increment.disabled = true;
   }
   decrement.removeAttribute("disabled");
@@ -183,12 +178,12 @@ reviewForm.addEventListener("submit", async (e) => {
     createInput.value = "";
     createRating.value = "1";
 
-    loadingAlert.style.display = "block";
+    // loadingAlert.style.display = "block";
   } catch (error) {
     console.log(error);
   }
   setTimeout(() => {
-    loadingAlert.style.display = "none";
+    // loadingAlert.style.display = "none";
   }, 1000);
 });
 
@@ -196,7 +191,7 @@ overallContainer.addEventListener("click", async (e) => {
   const el = e.target;
 
   if (el.parentElement.classList.contains("delete-container")) {
-    loadingAlert.style.visiblity = "visible";
+    // loadingAlert.style.visiblity = "visible";
     const reviewID = el.dataset.id;
 
     try {
@@ -205,6 +200,6 @@ overallContainer.addEventListener("click", async (e) => {
     } catch (error) {
       console.log(error);
     }
-    loadingAlert.style.visiblity = "hidden";
+    // loadingAlert.style.visiblity = "hidden";
   }
 });
