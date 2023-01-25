@@ -55,18 +55,20 @@ const showReviews = async () => {
             </div>
 
             <div class="action-links">
-              <div class ="edit-container">
-                <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
-                  <img src="./images/icon-edit.svg">Edit
-                </a>
-              </div>
-
-            <!-- delete btn -->
+              <!-- delete btn -->
               <div class = "delete-container">
                <button type= "button" class ="delete-btn" data-id="${reviewID}">
                 <img src = "./images/icon-delete.svg">Delete
-               </button>
+               </button> 
               </div>
+              <!-- edit btn -->
+              <div class ="edit-container">
+                <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
+                  <img src="./images/icon-edit.svg">Edit
+                </a> 
+              </div>
+
+            
             </div>       
           `
                 : `
@@ -82,7 +84,7 @@ const showReviews = async () => {
 
           <div class="action-links">
             <div class="reply-container">
-              <img src"./images/icon-reply.svg">Reply
+              <img src="./images/icon-reply.svg"> Reply
             </div>
       
           `
@@ -163,7 +165,7 @@ showReviews();
 reviewForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const reviewText = createInput.value;
-  const rating = createRating.value;
+  const rating = createRating.textContent;
   try {
     const {
       data: { review },
@@ -189,10 +191,11 @@ reviewForm.addEventListener("submit", async (e) => {
 
 overallContainer.addEventListener("click", async (e) => {
   const el = e.target;
-
+  console.log(el);
   if (el.parentElement.classList.contains("delete-container")) {
     // loadingAlert.style.visiblity = "visible";
     const reviewID = el.dataset.id;
+    console.log(reviewID);
 
     try {
       const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
