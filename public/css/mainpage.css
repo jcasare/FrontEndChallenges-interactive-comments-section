@@ -33,20 +33,18 @@ main{
   justify-content: center;
   background-color: var(--Very-light-gray);
   min-height: 100vh;
+  filter: contrast(0.5)
 }
 .overall-wrapper{
   display: grid;
   gap: 10px;
-  margin: 3rem auto;
+  margin: 3rem auto 0 auto;
   align-items: start;
+  grid-auto-rows: min-content;
+  
 }
 
-.overall-container{
-  display: grid;
-  gap: 10px;
-  
-  justify-content: center;
-}
+
 #create-review{
   background-color: var(--White);
   border-radius: 10px;
@@ -64,8 +62,8 @@ max-width: 600px;
 #create-review #review-form .text-content{
   width: 100%;
   height: 100%;
-  
 }
+
 #create-review #review-form .text-content textarea{
   width: 100%;
   resize: none;
@@ -74,9 +72,16 @@ max-width: 600px;
   overflow: hidden;
   height: 100%;
 }
+
 #create-review #review-form .text-content textarea:focus{
   outline: none;
 }
+
+#create-review #review-form .review-submit{
+  display: flex;
+  align-items: start;
+}
+
 #create-review #review-form .review-submit button{
   background-color: var(--Moderate-blue);
   border: none;
@@ -85,12 +90,17 @@ max-width: 600px;
   color: var(--White);
   cursor: pointer;
   font-weight: 500;
+  align-self: start;
 }
+
 #create-review #review-form .review-submit button:hover{
   opacity: 0.5;
 }
-
-
+.overall-container{
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+}
 .single-review{
   background-color: var(--White);
   position: relative;
@@ -135,11 +145,12 @@ max-width: 600px;
   align-items: center;
   gap: 1rem;
   position: relative;
-  top: -15px;
+  top: 0px;
 }
 
 .content-container .author-container .author-name{
 font-weight: 700;
+align-self: start;
 }
 .content-container .author-container .author-status{
   color: var(--White);
@@ -152,9 +163,11 @@ font-weight: 700;
 }
 .content-container .author-container .review-time{
   color: var(--Grayish-Blue);
-  align-content: end;
-  display: flex;
+  align-self: end;
 }
+/* .content-container .author-container .review-time p{
+
+} */
 .content-container .text-container{
   height: 100%;
   line-height: 1.5;
@@ -215,3 +228,50 @@ font-weight: 700;
 .content-container .action-links .reply-container .reply-btn:hover{
   opacity: 0.5;
 }
+
+
+.delete-alert-container{
+  background-color: var(--White);
+  padding: 20px;
+  max-width: 320px;
+  border-radius: 10px;
+  display: grid;
+  gap: 15px;
+  position: absolute;
+  justify-self: center;
+  align-self: center;
+}
+.delete-alert-container .header h1{
+  font-weight: 700;
+  font-size: larger ;
+}
+.delete-alert-container .content p{
+  color: var(--Grayish-Blue);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.delete-alert-container .footer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.delete-alert-container .footer button{
+  
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--White);
+  cursor: pointer;
+}
+.delete-alert-container .footer button:hover{
+  opacity: 0.5;
+}
+
+.delete-alert-container .footer button:first-child{
+  background-color: var(--Grayish-Blue);
+}
+.delete-alert-container .footer button:last-child{
+  background-color: var(--Soft-Red);
+}
+

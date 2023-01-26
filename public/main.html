@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/favicon-32x32.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/mainpage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
     <title>Reviews</title>
@@ -32,13 +33,24 @@
             <div class="overall-container">
             
             </div>
+
             <!--all Reviews-->
             
             
             <!-- create review container-->
         </div>
-                
-       
+        <div class="delete-alert-container hide">
+            <div class="header">
+                <h1>Delete comment</h1>
+            </div>
+            <div class="content">
+                <p>Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
+            </div>
+            <div class="footer">
+                <button class="cancel-btn">NO, CANCEL</button>
+                <button class="confirm-btn">YES, DELETE</button>
+            </div>
+        </div>
         
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"

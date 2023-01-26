@@ -197,7 +197,6 @@ overallContainer.addEventListener("click", async (e) => {
   if (el.parentElement.classList.contains("delete-container")) {
     // loadingAlert.style.visiblity = "visible";
     const reviewID = el.dataset.id;
-    console.log(reviewID);
 
     try {
       const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
@@ -206,5 +205,10 @@ overallContainer.addEventListener("click", async (e) => {
       console.log(error);
     }
     // loadingAlert.style.visiblity = "hidden";
+  } else if (el.parentElement.classList.contains("reply-container")) {
+    const reviewID = el.dataset.id;
+    try {
+      const { data } = await axios.post("/api/v1/reiews/");
+    } catch (error) {}
   }
 });
