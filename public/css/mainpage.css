@@ -25,30 +25,29 @@ img{
 }
 
 main{
-  display: grid;
-  justify-content: center;
-  background-color: var(--Very-light-gray);
   min-height: 100vh;
-  z-index: 0;  
-}
-
-.no-filter{
-  filter: contrast(0.5);
-  z-index: 1;
+  min-width: 100vw; 
+  background-color: var(--Very-light-gray);  
+  padding: 3rem;
 }
 
 .overall-wrapper{
-  display: grid;
-  gap: 10px;
-  margin: 3rem auto 0 auto;
-  align-items: start;
-  grid-auto-rows: min-content;  
+  position: relative;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  
 }
 
 #create-review{
+  min-width: 100%; 
+  justify-self: center;
   background-color: var(--White);
   border-radius: 10px;
   align-self: end;
+  margin: auto;
 }
 
 #create-review #review-form{
@@ -250,6 +249,9 @@ align-self: start;
   justify-self: center;
   align-self: center;
   filter: none;
+  position: absolute;
+  top: 50%;
+  
 }
 
 .delete-alert-container .header h1{
