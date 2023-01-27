@@ -4,6 +4,8 @@ const createRating = document.querySelector("#create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
 const loadingAlert = document.querySelector(".loading-text");
 const overallContainer = document.querySelector(".overall-container");
+const overallWrapper = document.querySelector(".overall-wrapper");
+const deleteDOM = document.querySelector(".delete-alert-container");
 const decrement = document.querySelector("#decrement");
 const increment = document.querySelector("#increment");
 
@@ -193,17 +195,25 @@ reviewForm.addEventListener("submit", async (e) => {
 
 overallContainer.addEventListener("click", async (e) => {
   const el = e.target;
-  console.log(el);
-  if (el.parentElement.classList.contains("delete-container")) {
-    // loadingAlert.style.visiblity = "visible";
-    const reviewID = el.dataset.id;
+  const reviewID = el.dataset.id;
+  if (el.classList.contains("delete-btn")) {
+    deleteDOM.classList.remove("hidden");
+    deleteDOM.addEventListener("click", async (e) => {
+      const el = e.target;
+      if (el.classList.contains("confirm-btn")) {
+        try {
+          const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
+          deleteDOM.classList.add("hidden");
+          await showReviews();
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (el.classList.contains("cancel-btn")) {
+        deleteDOM.classList.add("hidden");
+        return;
+      }
+    });
 
-    try {
-      const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
-      showReviews();
-    } catch (error) {
-      console.log(error);
-    }
     // loadingAlert.style.visiblity = "hidden";
   } else if (el.parentElement.classList.contains("reply-container")) {
     const reviewID = el.dataset.id;
