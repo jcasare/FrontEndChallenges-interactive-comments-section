@@ -24,7 +24,6 @@ const showReviews = async () => {
       return;
     }
 
-    console.log(username);
     reviews.forEach((review) => {
       const {
         reviewText,
@@ -216,9 +215,27 @@ overallContainer.addEventListener("click", async (e) => {
 
     // loadingAlert.style.visiblity = "hidden";
   } else if (el.parentElement.classList.contains("reply-container")) {
-    const reviewID = el.dataset.id;
+    const allWrappers = document.querySelector(".single-review");
+    const replyDOM = document.createElement("div");
+    replyDOM.classList.add("reply-wrapper");
+    replyDOM.innerHTML = `
+    <div class="single-reply">
+      <div class="rating-container">
+        <img src="./images/icon-plus.svg" id="increment" alt="">
+        <div id="create-rating">3</div>
+        <img src="./images/icon-minus.svg" id="decrement" alt="">
+      </div>
+      <div class="text-content">
+        <textarea placeholder="Leave your reply here..." id="create-reply"></textarea>
+      </div>
+      <div class = "reply-submit-container">
+        <button type="submit" class="reply-submit-btn">REPLY</button>
+      </div>
+    </div>`;
+    console.log(allWrappers);
     try {
       const { data } = await axios.post("/api/v1/reiews/");
     } catch (error) {}
   }
+  // const reviewID = el.dataset.id;
 });

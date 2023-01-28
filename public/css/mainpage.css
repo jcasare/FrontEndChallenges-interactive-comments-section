@@ -100,7 +100,7 @@ min-width: 100%;
 
 .overall-container{
   display: grid;
-  gap: 10px;  
+  gap: 15px;  
   min-width: 100%;
 }
 
@@ -150,11 +150,13 @@ min-width: 100%;
   gap: 1rem;
   position: relative;
   top: 0px;
+  text-align: end;
 }
 
 .content-container .author-container .author-name{
 font-weight: 700;
-align-self: start;
+align-self: end;
+height: 100%;
 }
 
 .content-container .author-container .author-status{
@@ -168,12 +170,13 @@ align-self: start;
 }
 
 .content-container .author-container .review-time{
+  display: flex;
   color: var(--Grayish-Blue);
   align-self: end;
+  height: 100%;
+  text-align:end;
 }
-/* .content-container .author-container .review-time p{
 
-} */
 .content-container .text-container{
   height: 100%;
   line-height: 1.5;
@@ -296,12 +299,66 @@ align-self: start;
 }
 
 
-@media  only screen and (max-width:560px){
+@media only screen and (max-width:520px){
+  main{ 
+    overflow: hidden;
+  }
   .overall-wrapper{
     max-width: 500px;
   }
+  #create-review #review-form{
+    display: grid;
+    grid-template-areas:
+    "a a a" 
+    "a a a" 
+    "b 0 c" ;
+    
+  }
+  #create-review #review-form .text-content{
+    grid-area: a;
+  }
+  #create-review #review-form .review-submit{
+    grid-area: c;
+    display: flex;
+    flex-direction: row;
+  }
+  #create-review #review-form .rating{
+    grid-area: b;
+  }
+  .rating-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-radius: 5px;
+  }
+.rating-container img{
+  align-self: center;
 }
 
-#create-review{
-  width: 400px;
+.single-review{
+  display: grid;
+  grid-template-areas: "a a a"
+  "a a a"
+  "b 0 0";
+  gap: 0.3rem;
+  position: relative;
 }
+.single-review .rating-container{
+  grid-area: b;
+  max-width: 80px;
+}
+.single-review .content-container .action-links{ 
+  max-height: fit-content;
+  position: sticky;
+  /* bottom: 0;   */
+  justify-self: end;
+  align-self: start;
+}
+.single-review .content-container .author-container{
+  display: flex;
+  justify-content: stretch;
+}
+
+
+
+}
+
