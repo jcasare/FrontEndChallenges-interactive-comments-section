@@ -110,7 +110,7 @@ min-width: 100%;
   border-radius: 10px;
   padding: 15px;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
   width: 100%;
@@ -184,7 +184,7 @@ height: 100%;
   word-break: break-all;
 }
 
-.content-container .action-links{
+.single-review .action-links{
   position: absolute;
   top: 15px;
   right: 15px;
@@ -195,7 +195,7 @@ height: 100%;
   align-items: center;  
 }
 
-.content-container .action-links .delete-btn{
+.single-review .action-links .delete-btn{
   border: none;
   cursor: pointer;
   background-color: var(--White);
@@ -207,11 +207,11 @@ height: 100%;
   font-weight: 500;  
 }
 
-.content-container .action-links button:hover{
+.single-review .action-links button:hover{
   opacity: 0.5;
 }
 
-.content-container .action-links a{
+.single-review .action-links a{
   display: flex;
   justify-content: center;
   text-decoration: none;
@@ -221,11 +221,11 @@ height: 100%;
   font-weight: 500;
 }
 
-.content-container .action-links a:hover{
+.single-review .action-links a:hover{
   opacity: 0.5;
 }
 
-.content-container .action-links .reply-container .reply-btn{
+.single-review .action-links .reply-container .reply-btn{
   border: none;
   cursor: pointer;
   background-color: var(--White);
@@ -237,7 +237,7 @@ height: 100%;
   font-weight: 500;
 }
 
-.content-container .action-links .reply-container .reply-btn:hover{
+.single-review .action-links .reply-container .reply-btn:hover{
   opacity: 0.5;
 }
 
@@ -253,8 +253,7 @@ height: 100%;
   align-self: center;
   filter: none;
   position: absolute;
-  top: 50%;
-  
+  top: 50%; 
 }
 
 .delete-alert-container .header h1{
@@ -330,6 +329,7 @@ height: 100%;
     grid-template-columns: repeat(3, 1fr);
     border-radius: 5px;
   }
+
 .rating-container img{
   align-self: center;
 }
@@ -338,24 +338,29 @@ height: 100%;
   display: grid;
   grid-template-areas: "a a a"
   "a a a"
-  "b 0 0";
+  "b 0 c";
   gap: 0.3rem;
   position: relative;
 }
+
 .single-review .rating-container{
   grid-area: b;
   max-width: 80px;
 }
-.single-review .content-container .action-links{ 
-  max-height: fit-content;
-  position: sticky;
-  /* bottom: 0;   */
-  justify-self: end;
-  align-self: start;
+.single-review .content-container{
+  grid-area: a;
 }
+
+.single-review .action-links{ 
+  grid-area: c;
+  position:relative;
+  top: 0;
+  right: 0; 
+}
+
 .single-review .content-container .author-container{
   display: flex;
-  justify-content: stretch;
+  justify-content: space-between;
 }
 
 

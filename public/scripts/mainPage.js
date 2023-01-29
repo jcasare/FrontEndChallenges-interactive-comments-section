@@ -55,7 +55,11 @@ const showReviews = async () => {
             ${reviewText}
             </div>
 
-            <div class="action-links">
+           
+            
+            
+       </div>
+        <div class="action-links">
               <!-- delete btn -->
               <div class = "delete-container">
                <button type= "button" class ="delete-btn" data-id="${reviewID}">
@@ -68,8 +72,6 @@ const showReviews = async () => {
                   <img src="./images/icon-edit.svg">Edit
                 </a> 
               </div>
-
-            
             </div>       
           `
                 : `
@@ -82,13 +84,14 @@ const showReviews = async () => {
             <div class = "text-container">
             ${reviewText}
             </div>
-
+          </div>
           <div class="action-links">
             <div class="reply-container">
               <button type= "button" class ="reply-btn" data-id="${reviewID}">
                 <img src = "./images/icon-reply.svg">Reply
                </button> 
             </div>
+          </div>
       
           `
             }
@@ -215,10 +218,14 @@ overallContainer.addEventListener("click", async (e) => {
 
     // loadingAlert.style.visiblity = "hidden";
   } else if (el.parentElement.classList.contains("reply-container")) {
-    const allWrappers = document.querySelector(".single-review");
-    const replyDOM = document.createElement("div");
-    replyDOM.classList.add("reply-wrapper");
-    replyDOM.innerHTML = `
+    const allWrappers = document.querySelectorAll(".single-review");
+    allWrappers.forEach((el) => {
+      el.querySelectorAll(".reply-container").forEach((item) => {
+        item.addEventListener("click", async () => {});
+      });
+      const replyDOM = document.createElement("div");
+      replyDOM.classList.add("reply-wrapper");
+      replyDOM.innerHTML = `
     <div class="single-reply">
       <div class="rating-container">
         <img src="./images/icon-plus.svg" id="increment" alt="">
@@ -232,6 +239,9 @@ overallContainer.addEventListener("click", async (e) => {
         <button type="submit" class="reply-submit-btn">REPLY</button>
       </div>
     </div>`;
+      wrapper.appendChild(replyDOM);
+    });
+
     console.log(allWrappers);
     try {
       const { data } = await axios.post("/api/v1/reiews/");
