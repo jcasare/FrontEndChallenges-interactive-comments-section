@@ -361,9 +361,17 @@ height: 100%;
 .single-review .content-container .author-container{
   display: flex;
   justify-content: space-between;
+  }
+
 }
 
+@media only screen and (max-width:315px) {
 
+  .overall-wrapper{
+    max-width: 315px;
+  }
+
+  
 
 }
 
