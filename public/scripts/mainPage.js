@@ -195,7 +195,7 @@ reviewForm.addEventListener("submit", async (e) => {
   }, 1000);
 });
 
-overallContainer.addEventListener("click", async (e) => {
+overallContainer.addEventListener("click", (e) => {
   const el = e.target;
   const reviewID = el.dataset.id;
   if (el.classList.contains("delete-btn")) {
@@ -215,19 +215,20 @@ overallContainer.addEventListener("click", async (e) => {
         return;
       }
     });
-
-    // loadingAlert.style.visiblity = "hidden";
   } else if (el.parentElement.classList.contains("reply-container")) {
-    const allWrappers = document.querySelectorAll(".single-review");
-    allWrappers.forEach((el) => {
-      el.querySelectorAll(".reply-container").forEach((item) => {
-        item.addEventListener("click", async () => {});
-      });
-      const replyDOM = document.createElement("div");
-      replyDOM.classList.add("reply-wrapper");
-      replyDOM.innerHTML = `
-    <div class="single-reply">
-      <div class="rating-container">
+    const reviewID = el.dataset.id;
+    createReplyWrapper(el.closest(".single-review"), reviewID);
+  }
+});
+
+const createReplyWrapper = async (item, reviewID) => {
+  document.querySelectorAll(".reply-wrapper").forEach((el) => {
+    el.remove();
+  });
+  const replyWrapper = document.createElement("div");
+  replyWrapper.classList.add("reply-wrapper");
+  replyWrapper.innerHTML = `
+    <div class="rating-container">
         <img src="./images/icon-plus.svg" id="increment" alt="">
         <div id="create-rating">3</div>
         <img src="./images/icon-minus.svg" id="decrement" alt="">
@@ -238,14 +239,6 @@ overallContainer.addEventListener("click", async (e) => {
       <div class = "reply-submit-container">
         <button type="submit" class="reply-submit-btn">REPLY</button>
       </div>
-    </div>`;
-      wrapper.appendChild(replyDOM);
-    });
-
-    console.log(allWrappers);
-    try {
-      const { data } = await axios.post("/api/v1/reiews/");
-    } catch (error) {}
-  }
-  // const reviewID = el.dataset.id;
-});
+  `;
+  item.closest(".single-review").after(replyWrapper);
+};
