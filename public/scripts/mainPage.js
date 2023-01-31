@@ -1,13 +1,13 @@
 const reviewForm = document.querySelector("#review-form");
 const createInput = document.querySelector("#create-input");
-const createRating = document.querySelector("#create-rating");
+const createRating = document.querySelector(".create-rating");
 const reviewContainer = document.querySelector("#reviews-container");
 const loadingAlert = document.querySelector(".loading-text");
 const overallContainer = document.querySelector(".overall-container");
 const overallWrapper = document.querySelector(".overall-wrapper");
 const deleteDOM = document.querySelector(".delete-alert-container");
-const decrement = document.querySelector("#decrement");
-const increment = document.querySelector("#increment");
+const decrement = document.querySelector(".decrement");
+const increment = document.querySelector(".increment");
 
 // Load Reviews from /api/v1/reviews
 
@@ -38,7 +38,7 @@ const showReviews = async () => {
       <div class="single-review">
         <div class="rating-container">
             <img src="./images/icon-plus.svg" class="plus-icon">
-            <div id="create-rating">${rating}</div>
+            <div class="create-rating">${rating}</div>
             <img src="./images/icon-minus.svg" class="minus-icon">
         </div>
         <div class="content-container">
@@ -222,22 +222,22 @@ overallContainer.addEventListener("click", (e) => {
 });
 
 const createReplyWrapper = async (item, reviewID) => {
-  document.querySelectorAll(".reply-wrapper").forEach((el) => {
+  document.querySelectorAll(".create-reply").forEach((el) => {
     el.remove();
   });
   const replyWrapper = document.createElement("div");
-  replyWrapper.classList.add("reply-wrapper");
+  replyWrapper.classList.add("create-reply");
   replyWrapper.innerHTML = `
     <div class="rating-container">
-        <img src="./images/icon-plus.svg" id="increment" alt="">
-        <div id="create-rating">3</div>
-        <img src="./images/icon-minus.svg" id="decrement" alt="">
+        <img src="./images/icon-plus.svg" class="increment" alt="">
+        <div class="create-rating">3</div>
+        <img src="./images/icon-minus.svg" class="decrement" alt="">
       </div>
       <div class="text-content">
         <textarea placeholder="Leave your reply here..." id="create-reply"></textarea>
       </div>
-      <div class = "reply-submit-container">
-        <button type="submit" class="reply-submit-btn">REPLY</button>
+      <div class = "reply-submit-container review-submit">
+        <button type="submit" class="submit-btn">REPLY</button>
       </div>
   `;
   item.closest(".single-review").after(replyWrapper);

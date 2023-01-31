@@ -65,7 +65,7 @@ min-width: 100%;
   height: 100%;
 }
 
-#create-review #review-form .text-content textarea{
+  textarea{
   width: 100%;
   resize: none;
   border-radius: 10px;
@@ -74,16 +74,16 @@ min-width: 100%;
   height: 100%;
 }
 
-#create-review #review-form .text-content textarea:focus{
+textarea:focus{
   outline: none;
 }
 
-#create-review #review-form .review-submit{
+ .review-submit{
   display: flex;
   align-self: start;
 }
 
-#create-review #review-form .review-submit button{
+ .submit-btn{
   background-color: var(--Moderate-blue);
   border: none;
   border-radius: 10px;
@@ -127,7 +127,7 @@ min-width: 100%;
   padding: 10px;
 }
 
-.rating-container #create-rating{
+.rating-container .create-rating{
   font-weight: 700;
   color: var(--Moderate-blue);
   justify-self: center;
@@ -149,7 +149,7 @@ min-width: 100%;
   align-items: center;
   gap: 1rem;
   position: relative;
-  top: 0px;
+  top: -15px;
   text-align: end;
 }
 
@@ -189,7 +189,7 @@ height: 100%;
   top: 15px;
   right: 15px;
   display: flex;
-  gap: 0.8rem;
+  gap: 0.5rem;
   justify-content: center;
   text-align: center;
   align-items: center;  
@@ -293,6 +293,20 @@ height: 100%;
   background-color: var(--Soft-Red);
 }
 
+.create-reply{
+display: grid;
+grid-template-columns: auto 1fr auto;
+gap: 10px;
+align-items: center;
+padding: 15px;
+grid-template-rows: auto;
+min-width: 100%;
+background-color: var(--White);
+margin: 15px auto;
+border-radius: 10px;
+}
+
+
 .hidden{
   display: none;
 }
@@ -313,6 +327,7 @@ height: 100%;
     "b 0 c" ;
     
   }
+  
   #create-review #review-form .text-content{
     grid-area: a;
   }
@@ -361,6 +376,25 @@ height: 100%;
 .single-review .content-container .author-container{
   display: flex;
   justify-content: space-between;
+  top: 0;
+  }
+
+.create-reply{
+    display: grid;
+    grid-template-areas:
+    "a a a" 
+    "a a a" 
+    "b 0 c" ;
+  }
+
+  .create-reply .text-content{
+    grid-area: a;
+  }
+  .create-reply .rating-container{
+    grid-area: b;
+  }
+  .create-reply .reply-submit-container{
+    grid-area: c;
   }
 
 }
