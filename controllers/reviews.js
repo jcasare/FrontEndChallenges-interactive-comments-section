@@ -7,7 +7,6 @@ const {
   UnauthenticatedError,
   NotFoundError,
 } = require("../errors");
-const { findOneAndReplace } = require("../models/reviews");
 
 //getting all reviews with their respective author names
 
