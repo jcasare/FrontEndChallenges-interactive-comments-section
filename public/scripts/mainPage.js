@@ -221,7 +221,7 @@ overallContainer.addEventListener("click", (e) => {
   }
 });
 
-const createReplyWrapper = async (item, reviewID) => {
+const createReplyWrapper = (item, reviewID) => {
   document.querySelectorAll(".create-reply").forEach((el) => {
     el.remove();
   });
@@ -240,5 +240,6 @@ const createReplyWrapper = async (item, reviewID) => {
         <button type="submit" class="submit-btn">REPLY</button>
       </div>
   `;
+  console.log(reviewID);
   item.closest(".single-review").after(replyWrapper);
 };
