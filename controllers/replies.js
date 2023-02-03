@@ -1,19 +1,7 @@
 const Reply = require("../models/replies");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
-const {
-  BadRequestError,
-  UnauthenticatedError,
-  NotFoundError,
-} = require("../errors");
-
-const getReplies = async (req, res) => {
-  const token = req.signedCookies.token;
-  if (!token) {
-    res.redirect("/");
-  }
-};
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 const createReply = async (req, res) => {
   const token = req.signedCookies.token;
@@ -21,7 +9,10 @@ const createReply = async (req, res) => {
     res.redirect("/");
   }
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  const { userID, name } = payload;
+  if (!payload) {
+    throw new UnauthenticatedError("Not authorized for this route");
+  }
+  const { userID } = payload;
   const { reviewID, replyText, rating } = req.body;
   req.body.author = userID;
   if (!reviewID || !replyText || !rating || !userID) {
@@ -35,3 +26,5 @@ const createReply = async (req, res) => {
     .exec();
   res.status(StatusCodes.CREATED).json({ reply });
 };
+
+module.exports = createReply;
