@@ -13,7 +13,6 @@ const increment = document.querySelector(".increment");
 
 const showReviews = async () => {
   overallContainer.innerHTML = "";
-  // loadingAlert.style.visiblity = "visible";
   try {
     const {
       data: { reviews, userID, username },
@@ -40,7 +39,7 @@ const showReviews = async () => {
             <img src="./images/icon-plus.svg" class="plus-icon">
             <div class="create-rating">${rating}</div>
             <img src="./images/icon-minus.svg" class="minus-icon">
-        </div>
+        </div>  
         <div class="content-container">
             <div class="author-container">
             ${
@@ -53,10 +52,7 @@ const showReviews = async () => {
             
             <div class ="text-container">
             ${reviewText}
-            </div>
-
-           
-            
+            </div 
             
        </div>
         <div class="action-links">
@@ -240,6 +236,33 @@ const createReplyWrapper = (item, reviewID) => {
         <button type="submit" class="submit-btn">REPLY</button>
       </div>
   `;
+  const replyBtn = document.querySelector(".reply-submit-container button");
+  const replyTextDOM = document.querySelector(".create-reply .text-content");
+  const replyRatingDOM = document.querySelector(
+    ".create-reply .rating-container .create-rating"
+  );
+  replyBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const replyText = replyTextDOM.value;
+    const replyRating = replyRatingDOM.textContent;
+    try {
+      const {
+        data: { reply },
+      } = await axios.post(
+        "/api/v1/replies",
+        {
+          replyText,
+          rating: replyRating,
+        },
+        { withCredentials: true }
+      );
+      if (reply) {
+        showReviews();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
   console.log(reviewID);
   item.closest(".single-review").after(replyWrapper);
 };
