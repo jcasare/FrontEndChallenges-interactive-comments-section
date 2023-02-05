@@ -149,7 +149,7 @@ textarea:focus{
   align-items: center;
   gap: 1rem;
   position: relative;
-  top: -15px;
+  top:-7px;
   text-align: end;
 }
 
@@ -157,6 +157,7 @@ textarea:focus{
 font-weight: 700;
 align-self: end;
 height: 100%;
+font-size: 1.12rem;
 }
 
 .content-container .author-container .author-status{
@@ -166,15 +167,15 @@ height: 100%;
   border-radius: 5px;
   padding: 2px 7px;
   display: flex;
-  align-content: center;
+  align-content: start;
+  text-align: start;
 }
 
 .content-container .author-container .review-time{
   display: flex;
   color: var(--Grayish-Blue);
-  align-self: end;
-  height: 100%;
-  text-align:end;
+  font-size: 1.1rem;
+  
 }
 
 .content-container .text-container{
@@ -254,6 +255,8 @@ height: 100%;
   filter: none;
   position: absolute;
   top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .delete-alert-container .header h1{
@@ -356,7 +359,7 @@ border-radius: 10px;
   "a a a"
   "b 0 c";
   gap: 0.3rem;
-  position: relative;
+    
   width: 100%;
 }
 
@@ -420,7 +423,20 @@ border-radius: 10px;
     max-width: 315px;
   }
 
+  .delete-container button, .edit-container a{
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-indent: -9999px;
+  }
+
+  .delete-container button img, .edit-container a img{
+    display: inline-block;
+  }
   
+  .delete-container button span, .edit-container a span {
+  display: none;
+}
 
   
 

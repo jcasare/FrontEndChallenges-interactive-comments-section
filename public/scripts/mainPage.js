@@ -57,7 +57,7 @@ const showReviews = async () => {
               <!-- delete btn -->
               <div class = "delete-container">
                <button type= "button" class ="delete-btn" data-id="${reviewID}">
-                <img src = "./images/icon-delete.svg">Delete
+                <img src = "./images/icon-delete.svg" class="delete-btn" data-id=${reviewID}>Delete
                </button> 
               </div>
               <!-- edit btn -->
@@ -226,33 +226,26 @@ const createReplyWrapper = (item, reviewID) => {
         <button type="submit" class="submit-btn">REPLY</button>
       </div>
   `;
-  const replyBtn = document.querySelector(".reply-submit-container button");
-  const replyTextDOM = document.querySelector(".create-reply .text-content");
-  const replyRatingDOM = document.querySelector(
-    ".create-reply .rating-container .create-rating"
-  );
-  replyBtn.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const replyText = replyTextDOM.value;
-    const replyRating = replyRatingDOM.textContent;
-    try {
-      const {
-        data: { reply },
-      } = await axios.post(
-        "/api/v1/replies",
-        {
-          replyText,
-          rating: replyRating,
-        },
-        { withCredentials: true }
-      );
-      if (reply) {
-        showReviews();
+  item.closest(".single-review").after(replyWrapper);
+
+  replyWrapper.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("submit-btn")) {
+      const replyText = replyWrapper.querySelector("#create-reply").value;
+      const replyRating =
+        replyWrapper.querySelector(".create-rating").textContent;
+      try {
+        console.log(reviewID);
+        const {
+          data: { response },
+        } = await axios.post(
+          `/api/v1/reviews/${reviewID}/replies`,
+          { replyText, rating: replyRating },
+          { withCredentials: true }
+        );
+        await showReviews();
+      } catch (error) {
+        console.log(errror);
       }
-    } catch (error) {
-      console.log(error);
     }
   });
-  console.log(reviewID);
-  item.closest(".single-review").after(replyWrapper);
 };

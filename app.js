@@ -7,6 +7,7 @@ require("express-async-errors");
 const cors = require("cors");
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
+const replyRouter = require("./routes/replies");
 const reviewRouter = require("./routes/reviews");
 const authMiddleware = require("./middleware/auth");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -44,7 +45,7 @@ app.use("/dashboard/review/edit", authMiddleware, (req, res) => {
 app.use("/dashboard", authMiddleware, (req, res) => {
   res.sendFile(path.resolve(__dirname, "./public", "main.html"));
 });
-app.use("/api/v1", reviewRouter);
+app.use("/api/v1", reviewRouter, replyRouter);
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
