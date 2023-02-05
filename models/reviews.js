@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.set("strictQuery", false);
+mongoose.set("strictQuery", true);
 const reviewSchema = new mongoose.Schema(
   {
     author: {
@@ -15,7 +15,11 @@ const reviewSchema = new mongoose.Schema(
     },
     reviewText: {
       type: String,
-      minLength: [2, "review text cannot be less than 2 characters"],
+      minLength: [1, "review text cannot be less than 2 characters"],
+    },
+    reply: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reply",
     },
   },
   { timestamps: true }

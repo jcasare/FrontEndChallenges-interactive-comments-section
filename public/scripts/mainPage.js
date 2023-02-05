@@ -18,7 +18,6 @@ const showReviews = async () => {
       data: { reviews, userID, username },
     } = await axios.get("/api/v1/reviews");
     if (reviews.length < 1) {
-      // loadingAlert.style.visiblity = "none";
       overallContainer.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
@@ -48,12 +47,11 @@ const showReviews = async () => {
               <p class = "author-name">${authorName}</p>
               <p class = "author-status">you</p>
               <p class="review-time">${getTimeAgo(createdAt)}</p>
-            </div>
+            </div> 
             
             <div class ="text-container">
             ${reviewText}
-            </div 
-            
+            </div>     
        </div>
         <div class="action-links">
               <!-- delete btn -->
@@ -101,9 +99,6 @@ const showReviews = async () => {
     console.log(error);
     overallContainer.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
-  setTimeout(() => {
-    // loadingAlert.style.display = "none";
-  }, 500);
 };
 
 const getTimeAgo = (createdAt) => {
@@ -181,14 +176,9 @@ reviewForm.addEventListener("submit", async (e) => {
     }
     createInput.value = "";
     createRating.value = "1";
-
-    // loadingAlert.style.display = "block";
   } catch (error) {
     console.log(error);
   }
-  setTimeout(() => {
-    // loadingAlert.style.display = "none";
-  }, 1000);
 });
 
 overallContainer.addEventListener("click", (e) => {

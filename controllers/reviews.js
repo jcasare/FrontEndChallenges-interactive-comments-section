@@ -1,5 +1,4 @@
 const Review = require("../models/reviews");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 const {
@@ -21,7 +20,7 @@ const getReviews = async (req, res) => {
     .sort({ createdAt: -1 })
     .populate([
       { path: "author", select: "name _id" },
-      { path: "replies", select: "author replyText rating" },
+      { path: "reply", select: "author replyText rating" },
     ])
     .exec();
   res.status(StatusCodes.OK).json({ reviews, userID, username: name });
@@ -34,7 +33,7 @@ const getSingleReview = async (req, res) => {
   }
   const { id: reviewID } = req.params;
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  const { userID, name } = payload;
+
   const review = await Review.find({ _id: reviewID });
   if (!review) {
     throw NotFoundError(`Review with id ${reviewID} cannot be found`);

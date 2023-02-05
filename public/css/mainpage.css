@@ -353,9 +353,11 @@ border-radius: 10px;
   display: grid;
   grid-template-areas: "a a a"
   "a a a"
+  "a a a"
   "b 0 c";
   gap: 0.3rem;
   position: relative;
+  width: 100%;
 }
 
 .single-review .rating-container{
@@ -372,11 +374,24 @@ border-radius: 10px;
   top: 0;
   right: 0; 
 }
+.single-review .content-container{
+  display: grid;
+  grid-template-areas: 
+  "a a a"
+  "b b b"
+  "b b b"
+  ;
+}
+
 
 .single-review .content-container .author-container{
   display: flex;
   justify-content: space-between;
   top: 0;
+  grid-area: a;
+  }
+  .single-review .content-container .text-container{
+    grid-area: b;
   }
 
 .create-reply{
