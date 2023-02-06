@@ -21,7 +21,7 @@ const showReviews = async () => {
       overallContainer.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
-
+    console.log(reviews);
     reviews.forEach((review) => {
       const {
         reviewText,
@@ -29,6 +29,7 @@ const showReviews = async () => {
         createdAt,
         _id: reviewID,
         author: { _id: authorID, name: authorName },
+        replies,
       } = review;
       const allReviews = document.createElement("div");
       allReviews.classList.add("wrapper");
@@ -100,7 +101,7 @@ const showReviews = async () => {
     overallContainer.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
 };
-
+const showReply = async () => {};
 const getTimeAgo = (createdAt) => {
   const currentTime = new Date();
   //difference in milli-secs

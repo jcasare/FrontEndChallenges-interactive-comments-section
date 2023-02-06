@@ -20,7 +20,7 @@ const getReviews = async (req, res) => {
     .sort({ createdAt: -1 })
     .populate([
       { path: "author", select: "name _id" },
-      { path: "reply", select: "author replyText rating" },
+      { path: "replies", select: "author replyText rating" },
     ])
     .exec();
   res.status(StatusCodes.OK).json({ reviews, userID, username: name });

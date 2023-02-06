@@ -149,7 +149,7 @@ textarea:focus{
   align-items: center;
   gap: 1rem;
   position: relative;
-  top:-7px;
+  top: -15px;
   text-align: end;
 }
 
@@ -421,6 +421,10 @@ border-radius: 10px;
 
   .overall-wrapper{
     max-width: 315px;
+  }
+
+  .single-review{
+    max-width: 100%;
   }
 
   .delete-container button, .edit-container a{

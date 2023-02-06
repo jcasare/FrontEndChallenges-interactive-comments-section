@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Review = require("../models/reviews");
 const ReplySchema = new mongoose.Schema(
   {
     author: {
