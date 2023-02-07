@@ -235,7 +235,6 @@ const createReplyWrapper = (item, reviewID) => {
       const replyRating =
         replyWrapper.querySelector(".create-rating").textContent;
       try {
-        console.log(reviewID);
         const {
           data: { response },
         } = await axios.post(

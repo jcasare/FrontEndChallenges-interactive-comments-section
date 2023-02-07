@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-
-mongoose.set("strictQuery", true);
+mongoose.set("strictQuery", false);
 const reviewSchema = new mongoose.Schema(
   {
     author: {

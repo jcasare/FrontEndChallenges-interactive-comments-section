@@ -1,7 +1,9 @@
 const Reply = require("../models/replies");
+const Review = require("../models/reviews");
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, UnauthenticatedError } = require("../errors");
+const { BadRequestError } = require("../errors");
+const { default: mongoose } = require("mongoose");
 
 const createReply = async (req, res) => {
   const token = req.signedCookies.token;
@@ -10,9 +12,6 @@ const createReply = async (req, res) => {
   }
 
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
-  if (!payload) {
-    throw new UnauthenticatedError("Not authorized for this route");
-  }
   const { userID } = payload;
   const {
     body: { replyText, rating },
@@ -25,12 +24,23 @@ const createReply = async (req, res) => {
       "Kindly ensure that all fields have been rightfully filled"
     );
   }
+  const review = await Review.findOne({ _id: reviewID });
+  if (!review) {
+    throw new BadRequestError(`No review with ID ${reviewID} exists...`);
+  }
+
   const newReply = await Reply.create({ ...req.body });
-  const reply = await Reply.find({ newReply })
-    .populate({ path: "author", select: "name _id" })
-    .sort({ createdAt: -1 })
-    .exec();
-  res.status(StatusCodes.CREATED).json({ reply });
+  const replyID = newReply._id.toString();
+  const replyAttachedToReview = await Review.findOneAndUpdate(
+    { _id: reviewID },
+    { $push: { replies: replyID } }
+  );
+
+  // review.replies.push(replyID);
+  // await review.save();
+  // console.log(review.replies.toString());
+
+  res.status(StatusCodes.CREATED).json({ reply: newReply });
 };
 
 module.exports = createReply;
