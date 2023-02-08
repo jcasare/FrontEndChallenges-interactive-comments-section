@@ -24,6 +24,11 @@ img{
   max-width: 100%;
 }
 
+span{
+color: var(--Moderate-blue);
+font-weight: 700;
+}
+
 main{
   min-height: 100vh;
   min-width: 100vw; 
@@ -183,6 +188,7 @@ font-size: 1.12rem;
   line-height: 1.5;
   display: flex;
   word-break: break-all;
+  gap: 5px;
 }
 
 .single-review .action-links{
@@ -308,7 +314,9 @@ background-color: var(--White);
 margin: 15px auto;
 border-radius: 10px;
 }
-
+.reply-wrapper{
+  margin-top: 10px;
+}
 
 .hidden{
   display: none;

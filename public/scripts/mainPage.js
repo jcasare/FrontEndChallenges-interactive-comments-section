@@ -93,6 +93,67 @@ const showReviews = async () => {
       </div>
       
       `;
+      if (replies.length > 0) {
+        replies.forEach((reply) => {
+          const {
+            _id: replyID,
+            replyText,
+            rating: replyRating,
+            createdAt: replyTime,
+            author: { _id: replyAuthorID, name: replyAuthor },
+          } = reply;
+
+          const allReplies = document.createElement("div");
+          allReplies.classList.add("reply-wrapper");
+          allReplies.innerHTML = `
+      <div class="single-reply single-review">
+        <div class="rating-container">
+            <img src="./images/icon-plus.svg" class="plus-icon">
+            <div class="create-rating">${replyRating}</div>
+            <img src="./images/icon-minus.svg" class="minus-icon">
+        </div>
+        <div class="content-container">
+          <div class="author-container">
+            ${
+              replyAuthorID === userID
+                ? `
+                <p class = "author-name">${replyAuthor}</p>
+                <p class = "author-status">you</p>
+                <p class="review-time">${getTimeAgo(replyTime)}</p>
+          </div>
+          <div class="text-container"><span>@${authorName}</span> ${replyText}</div>
+        </div>
+          <div class="action-links">
+              <!-- delete btn -->
+              <div class = "delete-container">
+                <button type= "button" class ="delete-btn" data-id="${replyID}">
+                  <img src = "./images/icon-delete.svg" class="delete-btn" data-id=${reviewID}>Delete
+                </button> 
+              </div>
+                <!-- edit btn -->
+              <div class ="edit-container">
+                <a href ="/dashboard/review/edit?id=${replyID}" class="edit-link">
+                  <img src="./images/icon-edit.svg">Edit
+                </a> 
+              </div>
+          </div>
+            
+              `
+                : `
+                <p class = "author-name">${replyAuthor}</p>
+                <p class="review-time">${getTimeAgo(replyTime)}</p>
+            </div>
+            <div class = "text-content"><span>@${authorName}</span> ${replyText}</div>
+          </div>
+
+              `
+            }
+      </div>
+      
+      `;
+          allReviews.appendChild(allReplies);
+        });
+      }
 
       overallContainer.appendChild(allReviews);
     });
@@ -101,7 +162,6 @@ const showReviews = async () => {
     overallContainer.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
 };
-const showReply = async () => {};
 const getTimeAgo = (createdAt) => {
   const currentTime = new Date();
   //difference in milli-secs
