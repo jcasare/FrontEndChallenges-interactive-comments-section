@@ -57,8 +57,8 @@ const showReviews = async () => {
         <div class="action-links">
               <!-- delete btn -->
               <div class = "delete-container">
-               <button type= "button" class ="delete-btn" data-id="${reviewID}">
-                <img src = "./images/icon-delete.svg" class="delete-btn" data-id=${reviewID}>Delete
+               <button type= "button" class ="delete-btn" data-reviewID="${reviewID}">
+                <img src = "./images/icon-delete.svg" class="delete-btn" data-reviewID=${reviewID}>Delete
                </button> 
               </div>
               <!-- edit btn -->
@@ -82,7 +82,7 @@ const showReviews = async () => {
           </div>
           <div class="action-links">
             <div class="reply-container">
-              <button type= "button" class ="reply-btn" data-id="${reviewID}">
+              <button type= "button" class ="reply-btn" data-reviewID="${reviewID}">
                 <img src = "./images/icon-reply.svg">Reply
                </button> 
             </div>
@@ -126,13 +126,13 @@ const showReviews = async () => {
           <div class="action-links">
               <!-- delete btn -->
               <div class = "delete-container">
-                <button type= "button" class ="delete-btn" data-id="${replyID}">
+                <button type= "button" class ="delete-btn" data-reviewID="${reviewID}" data-replyID="${replyID}">
                   <img src = "./images/icon-delete.svg" class="delete-btn" data-id=${reviewID}>Delete
                 </button> 
               </div>
                 <!-- edit btn -->
               <div class ="edit-container">
-                <a href ="/dashboard/review/edit?id=${replyID}" class="edit-link">
+                <a href ="/dashboard/review/edit?id=${replyID}" class="edit-link" data-reviewID="${reviewID}" data-replyID="${replyID}">
                   <img src="./images/icon-edit.svg">Edit
                 </a> 
               </div>
@@ -242,16 +242,26 @@ reviewForm.addEventListener("submit", async (e) => {
   }
 });
 
-overallContainer.addEventListener("click", (e) => {
+overallContainer.addEventListener("click", async (e) => {
   const el = e.target;
-  const reviewID = el.dataset.id;
+
   if (el.classList.contains("delete-btn")) {
     deleteDOM.classList.remove("hidden");
+    const replyID = el.dataset.replyid;
+    const reviewID = el.dataset.reviewid;
+    console.log(replyID, reviewID);
     deleteDOM.addEventListener("click", async (e) => {
       const el = e.target;
+
       if (el.classList.contains("confirm-btn")) {
         try {
-          const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
+          if (replyID && reviewID) {
+            const { data } = await axios.delete(
+              `/api/v1/reviews/${reviewID}/replies/${replyID}`
+            );
+          } else if (reviewID) {
+            const { data } = await axios.delete(`/api/v1/reviews/${reviewID}`);
+          }
           deleteDOM.classList.add("hidden");
           await showReviews();
         } catch (error) {
@@ -263,7 +273,8 @@ overallContainer.addEventListener("click", (e) => {
       }
     });
   } else if (el.parentElement.classList.contains("reply-container")) {
-    const reviewID = el.dataset.id;
+    const reviewID = el.dataset.reviewid;
+    console.log(reviewID);
     createReplyWrapper(el.closest(".single-review"), reviewID);
   }
 });
@@ -284,13 +295,13 @@ const createReplyWrapper = (item, reviewID) => {
         <textarea placeholder="Leave your reply here..." id="create-reply"></textarea>
       </div>
       <div class = "reply-submit-container review-submit">
-        <button type="submit" class="submit-btn">REPLY</button>
+        <button type="submit" class="reply-submit-btn submit-btn">REPLY</button>
       </div>
   `;
   item.closest(".single-review").after(replyWrapper);
 
   replyWrapper.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("submit-btn")) {
+    if (e.target.classList.contains("reply-submit-btn")) {
       const replyText = replyWrapper.querySelector("#create-reply").value;
       const replyRating =
         replyWrapper.querySelector(".create-rating").textContent;

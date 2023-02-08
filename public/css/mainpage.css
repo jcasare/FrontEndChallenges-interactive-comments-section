@@ -27,6 +27,7 @@ img{
 span{
 color: var(--Moderate-blue);
 font-weight: 700;
+cursor: pointer;
 }
 
 main{
@@ -232,7 +233,7 @@ font-size: 1.12rem;
   opacity: 0.5;
 }
 
-.single-review .action-links .reply-container .reply-btn{
+ .action-links .reply-container .reply-btn{
   border: none;
   cursor: pointer;
   background-color: var(--White);
@@ -316,8 +317,23 @@ border-radius: 10px;
 }
 .reply-wrapper{
   margin-top: 10px;
+  position: relative;
 }
 
+.single-reply{
+  position: relative;
+  right: -5.1%;
+  max-width: 90%;
+}
+.single-reply::before{
+content: '';
+position: absolute;
+top: 0;
+left: -20px;
+width:3px;
+height: 109%;
+background-color: var(--Light-gray)
+}
 .hidden{
   display: none;
 }

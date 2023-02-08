@@ -3,14 +3,12 @@ const Review = require("../models/reviews");
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
-const { default: mongoose } = require("mongoose");
 
 const createReply = async (req, res) => {
   const token = req.signedCookies.token;
   if (!token) {
     res.redirect("/");
   }
-
   const payload = await jwt.verify(token, process.env.JWT_SECRET);
   const { userID } = payload;
   const {
@@ -36,11 +34,31 @@ const createReply = async (req, res) => {
     { $push: { replies: replyID } }
   );
 
-  // review.replies.push(replyID);
-  // await review.save();
-  // console.log(review.replies.toString());
-
   res.status(StatusCodes.CREATED).json({ reply: newReply });
 };
 
-module.exports = createReply;
+const deleteReply = async (req, res) => {
+  const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
+  const replyID = req.params.replyID;
+  const reviewID = req.params.reviewID;
+
+  const deleteSingleReply = await Review.findOneAndUpdate(
+    { _id: reviewID, replies: replyID },
+    { $pull: { replies: replyID } }
+  );
+
+  if (!deleteSingleReply) {
+    throw new BadRequestError(
+      `Review with ID ${reviewID} and or reply with ID ${replyID} doesn't exist`
+    );
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: `Reply with id ${replyID} has been deleted` });
+};
+
+module.exports = { createReply, deleteReply };
