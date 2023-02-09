@@ -122,6 +122,15 @@ textarea:focus{
   width: 100%;
   margin: auto;
 }
+.update-reply{
+  background-color: var(--White);
+  padding: 15px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  position: relative;
+  border-radius: 10px;
+}
 
 .rating-container{
   background-color: var(--Very-light-gray);
@@ -180,7 +189,7 @@ font-size: 1.12rem;
 .content-container .author-container .review-time{
   display: flex;
   color: var(--Grayish-Blue);
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   
 }
 
@@ -465,8 +474,6 @@ background-color: var(--Light-gray)
   .delete-container button span, .edit-container a span {
   display: none;
 }
-
-  
 
 }
 

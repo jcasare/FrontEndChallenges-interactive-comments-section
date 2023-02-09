@@ -21,7 +21,7 @@ const showReviews = async () => {
       overallContainer.innerHTML = `<h5 class = 'empty-list'>No reiews available</h5>`;
       return;
     }
-    console.log(reviews);
+
     reviews.forEach((review) => {
       const {
         reviewText,
@@ -63,7 +63,7 @@ const showReviews = async () => {
               </div>
               <!-- edit btn -->
               <div class ="edit-container">
-                <a href ="/dashboard/review/edit?id=${reviewID}" class="edit-link">
+                <a class="edit-link">
                   <img src="./images/icon-edit.svg">Edit
                 </a> 
               </div>
@@ -106,7 +106,7 @@ const showReviews = async () => {
           const allReplies = document.createElement("div");
           allReplies.classList.add("reply-wrapper");
           allReplies.innerHTML = `
-      <div class="single-reply single-review">
+      <div class="single-reply single-review" data-replyID="${replyID}" data-reviewID="${reviewID}">
         <div class="rating-container">
             <img src="./images/icon-plus.svg" class="plus-icon">
             <div class="create-rating">${replyRating}</div>
@@ -132,7 +132,7 @@ const showReviews = async () => {
               </div>
                 <!-- edit btn -->
               <div class ="edit-container">
-                <a href ="/dashboard/review/edit?id=${replyID}" class="edit-link" data-reviewID="${reviewID}" data-replyID="${replyID}">
+                <a  class="edit-link" data-reviewID="${reviewID}" data-replyID="${replyID}">
                   <img src="./images/icon-edit.svg">Edit
                 </a> 
               </div>
@@ -151,6 +151,18 @@ const showReviews = async () => {
       </div>
       
       `;
+          allReplies.addEventListener("click", async (e) => {
+            const el = e.target;
+
+            if (el.classList.contains("edit-link")) {
+              const { reviewid: reviewID, replyid: replyID } = el.dataset;
+              const replyDiv = el.parentNode.parentNode.parentNode;
+              const oldReply = replyDiv
+                .querySelector(".content-container .text-container")
+                .textContent.split(" ")[1];
+            }
+          });
+
           allReviews.appendChild(allReplies);
         });
       }
@@ -162,62 +174,7 @@ const showReviews = async () => {
     overallContainer.innerHTML = `<h5 class="empty-list">There was an error, please try again....</h5>`;
   }
 };
-const getTimeAgo = (createdAt) => {
-  const currentTime = new Date();
-  //difference in milli-secs
-  const diff = currentTime - new Date(createdAt);
-  //difference in seconds
-  const diffInSeconds = diff / 1000;
-  //difference in minutes
-  const diffInMinutes = diffInSeconds / 60;
-  //difference in hours
-  const diffInHours = diffInMinutes / 60;
-  //difference in days
-  const diffInDays = diffInHours / 24;
-  if (diffInSeconds < 60) {
-    return (
-      Math.floor(diffInSeconds) +
-      (Math.floor(diffInSeconds) === 1 ? " second ago" : " seconds ago")
-    );
-  } else if (diffInMinutes < 60) {
-    return (
-      Math.floor(diffInMinutes) +
-      (Math.floor(diffInMinutes) === 1 ? " minute ago" : " minutes ago")
-    );
-  } else if (diffInHours < 24) {
-    return (
-      Math.floor(diffInHours) +
-      (Math.floor(diffInHours) === 1 ? " hour ago" : " hours ago")
-    );
-  } else {
-    return (
-      Math.floor(diffInDays) +
-      (Math.floor(diffInDays) === 1 ? " day ago" : " days ago")
-    );
-  }
-};
-//plus-minus rating button
-decrement.addEventListener("click", () => {
-  if (createRating.textContent > 1) {
-    createRating.textContent--;
-    increment.disabled = false;
-  }
 
-  if (createRating.textContent === "1") {
-    decrement.disabled = true;
-  }
-  increment.removeAttribute("disabled");
-});
-increment.addEventListener("click", () => {
-  if (createRating.textContent < 5) {
-    createRating.textContent++;
-    decrement.disabled = false;
-  }
-  if (createRating.textContent === 5) {
-    increment.disabled = true;
-  }
-  decrement.removeAttribute("disabled");
-});
 showReviews();
 
 reviewForm.addEventListener("submit", async (e) => {
@@ -249,7 +206,7 @@ overallContainer.addEventListener("click", async (e) => {
     deleteDOM.classList.remove("hidden");
     const replyID = el.dataset.replyid;
     const reviewID = el.dataset.reviewid;
-    console.log(replyID, reviewID);
+
     deleteDOM.addEventListener("click", async (e) => {
       const el = e.target;
 
@@ -274,7 +231,7 @@ overallContainer.addEventListener("click", async (e) => {
     });
   } else if (el.parentElement.classList.contains("reply-container")) {
     const reviewID = el.dataset.reviewid;
-    console.log(reviewID);
+
     createReplyWrapper(el.closest(".single-review"), reviewID);
   }
 });
@@ -320,3 +277,61 @@ const createReplyWrapper = (item, reviewID) => {
     }
   });
 };
+
+const getTimeAgo = (createdAt) => {
+  const currentTime = new Date();
+  //difference in milli-secs
+  const diff = currentTime - new Date(createdAt);
+  //difference in seconds
+  const diffInSeconds = diff / 1000;
+  //difference in minutes
+  const diffInMinutes = diffInSeconds / 60;
+  //difference in hours
+  const diffInHours = diffInMinutes / 60;
+  //difference in days
+  const diffInDays = diffInHours / 24;
+  if (diffInSeconds < 60) {
+    return (
+      Math.floor(diffInSeconds) +
+      (Math.floor(diffInSeconds) === 1 ? " second ago" : " seconds ago")
+    );
+  } else if (diffInMinutes < 60) {
+    return (
+      Math.floor(diffInMinutes) +
+      (Math.floor(diffInMinutes) === 1 ? " minute ago" : " minutes ago")
+    );
+  } else if (diffInHours < 24) {
+    return (
+      Math.floor(diffInHours) +
+      (Math.floor(diffInHours) === 1 ? " hour ago" : " hours ago")
+    );
+  } else {
+    return (
+      Math.floor(diffInDays) +
+      (Math.floor(diffInDays) === 1 ? " day ago" : " days ago")
+    );
+  }
+};
+
+//plus-minus rating button
+decrement.addEventListener("click", () => {
+  if (createRating.textContent > 1) {
+    createRating.textContent--;
+    increment.disabled = false;
+  }
+
+  if (createRating.textContent === "1") {
+    decrement.disabled = true;
+  }
+  increment.removeAttribute("disabled");
+});
+increment.addEventListener("click", () => {
+  if (createRating.textContent < 5) {
+    createRating.textContent++;
+    decrement.disabled = false;
+  }
+  if (createRating.textContent === 5) {
+    increment.disabled = true;
+  }
+  decrement.removeAttribute("disabled");
+});
