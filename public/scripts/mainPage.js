@@ -151,16 +151,48 @@ const showReviews = async () => {
       </div>
       
       `;
-          allReplies.addEventListener("click", async (e) => {
-            const el = e.target;
-
-            if (el.classList.contains("edit-link")) {
-              const { reviewid: reviewID, replyid: replyID } = el.dataset;
-              const replyDiv = el.parentNode.parentNode.parentNode;
-              const oldReply = replyDiv
-                .querySelector(".content-container .text-container")
-                .textContent.split(" ")[1];
-            }
+          const editLinks = allReplies.querySelectorAll(".edit-link");
+          editLinks.forEach((link) => {
+            link.addEventListener("click", (e) => {
+              const parent = e.target.closest(".single-reply");
+              parent.parentNode.innerHTML = `
+        <div class="update-reply" data-replyID="${replyID}" data-review-ID="${reviewID}">
+          <div class="rating-container">
+            <img src="./images/icon-plus.svg" class="increment" alt="">
+            <div class="create-rating">${replyRating}</div>
+            <img src="./images/icon-minus.svg" class="decrement" alt="">
+          </div>
+          <div class="content-container">    
+            <div class="author-container">
+              <p class = "author-name">${replyAuthor}</p>
+              <p class = "author-status">you</p>
+              <p class="review-time">${getTimeAgo(replyTime)}</p>
+            </div>
+            <div class="text-content">
+              <textarea placeholder="Leave your review here....." id="create-input">${replyText}</textarea>
+            </div>
+            <div class="review-submit">
+              <button type="submit" class="submit-btn">UPDATE</button>
+            </div>
+          </div>
+          <div class="action-links">
+              <!-- delete btn -->
+            <div class = "delete-container">
+              <button type= "button" class ="delete-btn" data-reviewID="${reviewID}" data-replyID="${replyID}">
+                <img src = "./images/icon-delete.svg" class="delete-btn" data-id=${reviewID}>Delete
+              </button> 
+            </div>
+                <!-- edit btn -->
+            <div class ="edit-container">
+              <a  class="edit-link" data-reviewID="${reviewID}" data-replyID="${replyID}">
+                <img src="./images/icon-edit.svg">Edit
+              </a> 
+            </div>
+          </div>
+        </div>
+      
+              `;
+            });
           });
 
           allReviews.appendChild(allReplies);

@@ -126,11 +126,38 @@ textarea:focus{
   background-color: var(--White);
   padding: 15px;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   gap: 1rem;
   position: relative;
   border-radius: 10px;
-}
+  }
+
+.update-reply .rating-container{
+  max-height: 55%;
+  }
+.update-reply .content-container{
+gap: 0.5rem;
+display: grid;
+grid-template-columns: auto;
+grid-template-rows: auto 1fr auto;
+  }
+
+.update-reply .content-container .author-container{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  top: 0;
+  }
+.update-reply .content-container .review-submit{
+  justify-content: end;
+  }
+.update-reply .action-links{
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  right: 2%;
+  top: 7%;
+  }
 
 .rating-container{
   background-color: var(--Very-light-gray);
@@ -140,24 +167,24 @@ textarea:focus{
   min-width: 38px;
   border-radius: 10px;
   padding: 10px;
-}
+  }
 
 .rating-container .create-rating{
   font-weight: 700;
   color: var(--Moderate-blue);
   justify-self: center;
-}
+  }
 
 .rating-container img{
   cursor: pointer;
   width: 12px;
   justify-self: center;
-}
+  }
 
 .content-container{
   display: grid;
   gap: 5px;
-}
+  }
 
 .content-container .author-container{
   display: flex;
@@ -212,7 +239,7 @@ font-size: 1.12rem;
   align-items: center;  
 }
 
-.single-review .action-links .delete-btn{
+.action-links .delete-btn{
   border: none;
   cursor: pointer;
   background-color: var(--White);
@@ -224,11 +251,11 @@ font-size: 1.12rem;
   font-weight: 500;  
 }
 
-.single-review .action-links button:hover{
+ .action-links button:hover{
   opacity: 0.5;
 }
 
-.single-review .action-links a{
+ .action-links a{
   display: flex;
   justify-content: center;
   text-decoration: none;
@@ -238,7 +265,7 @@ font-size: 1.12rem;
   font-weight: 500;
 }
 
-.single-review .action-links a:hover{
+ .action-links a:hover{
   opacity: 0.5;
 }
 
