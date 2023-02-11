@@ -263,10 +263,12 @@ font-size: 1.12rem;
   gap: 3px;
   color: var(--Moderate-blue);
   font-weight: 500;
+  cursor: pointer;
 }
 
  .action-links a:hover{
   opacity: 0.5;
+  
 }
 
  .action-links .reply-container .reply-btn{
@@ -423,6 +425,30 @@ background-color: var(--Light-gray)
   width: 100%;
 }
 
+.update-reply{
+  display: grid;
+  grid-template-areas: "a a a"
+  "a a a"
+  "a a a"
+  "b 0 c";
+}
+.update-reply .rating-container{
+  grid-area: b;
+  min-height: 40px;
+  min-width: 90px;
+  position: absolute;
+  top: -3rem;
+  left: 0.4rem;
+}
+.update-reply .content-container{
+  grid-area: a;
+}
+.update-reply .action-links{
+  grid-area: c;
+  position: absolute;
+  top:-0.7rem
+}
+
 .single-review .rating-container{
   grid-area: b;
   max-width: 80px;
@@ -484,6 +510,9 @@ background-color: var(--Light-gray)
   }
 
   .single-review{
+    max-width: 100%;
+  }
+  .single-review .content-container{
     max-width: 100%;
   }
 
