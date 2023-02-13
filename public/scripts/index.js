@@ -59,9 +59,11 @@ const signUpRequest = async (e) => {
       registerPassword.value = "";
       registerPasswordConfirm.value = "";
       if (response.status === 201 && response.data.status === "success") {
+        alert(
+          "SignUp Successful, Kindly login with your newly created account"
+        );
         toggleForm();
       }
-      // window.location.href = "/main";
     } catch (error) {
       if (
         error.response &&
