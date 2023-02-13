@@ -93,6 +93,99 @@ const showReviews = async () => {
       </div>
       
       `;
+      const editReviewLink = allReviews.querySelectorAll(".edit-link");
+      editReviewLink.forEach((link) => {
+        link.addEventListener("click", async (e) => {
+          const parent = e.target.closest(".single-review");
+          parent.parentNode.innerHTML = `
+          <div class="update-review"  data-reviewID="${reviewID}">
+          <div class="rating-container">
+            <img src="./images/icon-plus.svg" class="increment" alt="">
+            <div class="create-rating">${rating}</div>
+            <img src="./images/icon-minus.svg" class="decrement" alt="">
+          </div>
+          <div class="content-container">    
+            <div class="author-container">
+              <p class = "author-name">${authorName}</p>
+              <p class = "author-status">you</p>
+              <p class="review-time">${getTimeAgo(createdAt)}</p>
+            </div>
+            <div class="text-content">
+              <textarea placeholder="Leave your review here....." id="create-input">${reviewText}</textarea>
+            </div>
+            <div class="review-submit">
+              <button type="submit" class="submit-btn">UPDATE</button>
+            </div>
+          </div>
+          <div class="action-links">
+              <!-- delete btn -->
+              <div class = "delete-container">
+               <button type= "button" class ="delete-btn" data-reviewID="${reviewID}">
+                <img src = "./images/icon-delete.svg" class="delete-btn" data-reviewID=${reviewID}>Delete
+               </button> 
+              </div>
+              <!-- edit btn -->
+              <div class ="edit-container">
+                <a class="edit-link">
+                  <img src="./images/icon-edit.svg">Edit
+                </a> 
+              </div>
+            </div>    
+          </div>
+          `;
+          const updateReviewDOM = document.querySelector(".update-review");
+          const increment = updateReviewDOM.querySelector(".increment");
+          const decrement = updateReviewDOM.querySelector(".decrement");
+          const createRating = updateReviewDOM.querySelector(".create-rating");
+          const submitBtn = updateReviewDOM.querySelector(".submit-btn");
+          const updateReviewID = updateReviewDOM.dataset.reviewid;
+          const updatedRating = updateReviewDOM.querySelector(
+            ".rating-container .create-rating"
+          );
+          const updateInput = updateReviewDOM.querySelector("#create-input");
+
+          submitBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const reviewText = updateInput.value;
+            const rating = updatedRating.textContent;
+            try {
+              const { data } = await axios.patch(
+                `/api/v1/reviews/${updateReviewID}`,
+                {
+                  reviewText,
+                  rating,
+                },
+                { withCredentials: true }
+              );
+              await showReviews();
+            } catch (error) {
+              console.log(error);
+            }
+          });
+          decrement.addEventListener("click", () => {
+            if (createRating.textContent > 1) {
+              createRating.textContent--;
+              increment.disabled = false;
+            }
+
+            if (createRating.textContent === "1") {
+              decrement.disabled = true;
+            }
+            increment.removeAttribute("disabled");
+          });
+          increment.addEventListener("click", () => {
+            if (createRating.textContent < 5) {
+              createRating.textContent++;
+              decrement.disabled = false;
+            }
+            if (createRating.textContent === 5) {
+              increment.disabled = true;
+            }
+            decrement.removeAttribute("disabled");
+          });
+        });
+      });
+
       if (replies.length > 0) {
         replies.forEach((reply) => {
           const {

@@ -122,6 +122,38 @@ textarea:focus{
   width: 100%;
   margin: auto;
 }
+.update-review{
+  background-color: var(--White);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 15px;
+  gap: 1rem;
+}
+
+.update-review .rating-container{
+  max-height: 55%;
+}
+
+.update-review .content-container{
+  gap: 0.5rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  
+}
+.update-review .content-container .author-container{
+  position: relative;
+  top: 0; 
+}
+.update-review .content-container .review-submit{
+  justify-content: end;
+}
+.update-review .action-links{
+  display: flex;
+  gap: 0.3rem;
+  position: absolute;
+  right: 2%;
+}
+
 .update-reply{
   background-color: var(--White);
   padding: 15px;
@@ -421,10 +453,33 @@ background-color: var(--Light-gray)
   "a a a"
   "b 0 c";
   gap: 0.3rem;
-    
   width: 100%;
 }
-
+.update-review{
+  display: grid;
+  grid-template-areas: "a a a"
+  "a a a"
+  "b 0 c";
+ 
+}
+.update-review .content-container{
+  grid-area: a;
+}
+.update-review .content-container .review-submit{
+  justify-content: center;
+}
+.update-review .rating-container{
+  grid-area: b;
+  min-height: 40px;
+}
+.update-review .action-links{
+  grid-area: c;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  position: relative;
+  bottom: 0;
+}
 .update-reply{
   display: grid;
   grid-template-areas: "a a a"
