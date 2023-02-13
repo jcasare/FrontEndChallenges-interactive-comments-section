@@ -60,5 +60,34 @@ const deleteReply = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ msg: `Reply with id ${replyID} has been deleted` });
 };
+const updateReply = async (req, res) => {
+  const token = req.signedCookies.token;
+  if (!token) {
+    res.redirect("/");
+  }
+  const payload = await jwt.verify(token, process.env.JWT_SECRET);
+  const { userID } = payload;
+  const replyID = req.params.replyID;
+  const reviewID = req.params.reviewID;
+  req.body.author = userID;
+  req.body.review = reviewID;
+  const { rating, replyText } = req.body;
+  if (!reviewID || !replyID || !rating || !replyText) {
+    throw new BadRequestError(
+      "Kindly ensure that all fields have been rightfully filled"
+    );
+  }
+  // const updatedReply = await Reply.findOneAndUpdate(
+  //   { _id: replyID },
+  //   { ...req.body },
+  //   { runValidators: true }
+  // );
+  const myOld = await Reply.findOneAndUpdate(
+    { _id: replyID, review: reviewID },
+    { ...req.body },
+    { new: true }
+  );
+  res.status(StatusCodes.OK).json({ myOld });
+};
 
-module.exports = { createReply, deleteReply };
+module.exports = { createReply, deleteReply, updateReply };

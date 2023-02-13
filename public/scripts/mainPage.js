@@ -156,7 +156,7 @@ const showReviews = async () => {
             link.addEventListener("click", (e) => {
               const parent = e.target.closest(".single-reply");
               parent.parentNode.innerHTML = `
-        <div class="update-reply" data-replyID="${replyID}" data-review-ID="${reviewID}">
+        <div class="update-reply" data-replyID="${replyID}" data-reviewID="${reviewID}">
           <div class="rating-container">
             <img src="./images/icon-plus.svg" class="increment" alt="">
             <div class="create-rating">${replyRating}</div>
@@ -192,6 +192,60 @@ const showReviews = async () => {
         </div>
       
               `;
+
+              const updateReplyDOM = document.querySelector(".update-reply");
+              const increment = updateReplyDOM.querySelector(".increment");
+              const decrement = updateReplyDOM.querySelector(".decrement");
+              const createRating =
+                updateReplyDOM.querySelector(".create-rating");
+              decrement.addEventListener("click", () => {
+                if (createRating.textContent > 1) {
+                  createRating.textContent--;
+                  increment.disabled = false;
+                }
+
+                if (createRating.textContent === "1") {
+                  decrement.disabled = true;
+                }
+                increment.removeAttribute("disabled");
+              });
+              increment.addEventListener("click", () => {
+                if (createRating.textContent < 5) {
+                  createRating.textContent++;
+                  decrement.disabled = false;
+                }
+                if (createRating.textContent === 5) {
+                  increment.disabled = true;
+                }
+                decrement.removeAttribute("disabled");
+              });
+
+              const submitBtn = updateReplyDOM.querySelector(".submit-btn");
+              const updateReplyID = updateReplyDOM.dataset.replyid;
+              const updateReviewID = updateReplyDOM.dataset.reviewid;
+              const updatedRating = updateReplyDOM.querySelector(
+                ".rating-container .create-rating"
+              );
+              const updateInput = updateReplyDOM.querySelector("#create-input");
+
+              submitBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const replyText = updateInput.value;
+                const rating = updatedRating.textContent;
+                try {
+                  const { data } = await axios.patch(
+                    `/api/v1/reviews/${reviewID}/replies/${replyID}`,
+                    {
+                      replyText,
+                      rating,
+                    },
+                    { withCredentials: true }
+                  );
+                  await showReviews();
+                } catch (error) {
+                  console.log(error);
+                }
+              });
             });
           });
 
@@ -287,6 +341,32 @@ const createReplyWrapper = (item, reviewID) => {
         <button type="submit" class="reply-submit-btn submit-btn">REPLY</button>
       </div>
   `;
+
+  const increment = replyWrapper.querySelector(".increment");
+  const decrement = replyWrapper.querySelector(".decrement");
+  const createRating = replyWrapper.querySelector(".create-rating");
+  decrement.addEventListener("click", () => {
+    if (createRating.textContent > 1) {
+      createRating.textContent--;
+      increment.disabled = false;
+    }
+
+    if (createRating.textContent === "1") {
+      decrement.disabled = true;
+    }
+    increment.removeAttribute("disabled");
+  });
+  increment.addEventListener("click", () => {
+    if (createRating.textContent < 5) {
+      createRating.textContent++;
+      decrement.disabled = false;
+    }
+    if (createRating.textContent === 5) {
+      increment.disabled = true;
+    }
+    decrement.removeAttribute("disabled");
+  });
+
   item.closest(".single-review").after(replyWrapper);
 
   replyWrapper.addEventListener("click", async (e) => {
