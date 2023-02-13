@@ -503,7 +503,7 @@ background-color: var(--Light-gray)
 
 }
 
-@media only screen and (max-width:315px) {
+@media only screen and (max-width:330px) {
 
   .overall-wrapper{
     max-width: 315px;
@@ -513,7 +513,7 @@ background-color: var(--Light-gray)
     max-width: 100%;
   }
   .single-review .content-container{
-    max-width: 100%;
+    max-width: 315px;
   }
 
   .delete-container button, .edit-container a{
@@ -531,5 +531,27 @@ background-color: var(--Light-gray)
   display: none;
 }
 
+.update-reply .action-links{
+  
+  display: none;
+}
+
+}
+
+@media only screen and (max-width:305px) {
+  .overall-wrapper{
+    max-width: 275px;
+  }
+  .content-container{
+    max-width: 100%;
+  }
+
+.update-reply .rating-container{
+display: none;
+}
+
+.update-reply .action-links{
+display: none;
+}
 }
 
