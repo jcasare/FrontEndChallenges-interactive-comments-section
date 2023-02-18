@@ -6,7 +6,6 @@ require("dotenv").config();
 require("express-async-errors");
 const cors = require("cors");
 const xss = require("xss-clean");
-const rateLimiter = require("express-rate-limit");
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
 const replyRouter = require("./routes/replies");
@@ -30,14 +29,11 @@ app.use(
   })
 );
 app.set("trust-proxy", 1);
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-  })
-);
 app.use(cors());
+<<<<<<< HEAD
 
+=======
+>>>>>>> bce117f5fe56c6a5041bec137b6457e0f1d536c1
 app.use(xss());
 
 app.use(staticRouteMiddleware);
