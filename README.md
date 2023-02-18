@@ -37,8 +37,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/jcasare/FrontEndChallenges-interactive-comments-section)
-- Live Site URL: [Add live site URL here](https://jays-mini-chat-app.onrender.com/)
+- Solution URL: [https://github.com/jcasare/FrontEndChallenges-interactive-comments-section]
+- Live Site URL: [https://jays-mini-chat-app.onrender.com/]
 
 ## My process
 
